@@ -1,4 +1,4 @@
-#include <backlightconfig.h>
+#include "../../../include/components/display/backlightconfig.h"
 
 void initBacklight(int i2cFileDescriptor) {
     if(ioctl(i2cFileDescriptor, I2C_SLAVE,BL_ADDR) < SUCCESS) {

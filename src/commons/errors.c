@@ -1,6 +1,6 @@
-#include <errors.h>
+#include "../../include/commons/errors.h"
 
-static void throwError(const char *msg) {
+void throwError(const char *msg) {
     perror(msg);
-    exit(-errno);
+    exit(ERROR);
 }

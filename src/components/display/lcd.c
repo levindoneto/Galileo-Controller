@@ -1,4 +1,4 @@
-#include <lcd.h>
+#include "../../../include/components/display/lcd.h"
 
 int writeDisplay(const char* textToWrite) {
     int i;
@@ -7,9 +7,9 @@ int writeDisplay(const char* textToWrite) {
     int fileDescriptor = open("/dev/i2c-0",O_WRONLY);
 
     // Init display and backlight of the LCD
-    initDisplay(i2cFileDescriptor);
-    prepareDisplay(i2cFileDescriptor);
-    initBacklight(i2cFileDescriptor);
+    initDisplay(fileDescriptor);
+    prepareDisplay(fileDescriptor);
+    initBacklight(fileDescriptor);
 
     // Write string on the LCD display
     if(ioctl(fileDescriptor,I2C_SLAVE,LCD_ADDR) < SUCCESS) {

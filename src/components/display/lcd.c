@@ -1,3 +1,5 @@
+#include <lcd.h>
+
 int writeDisplay(const char* textToWrite) {
     int i;
 

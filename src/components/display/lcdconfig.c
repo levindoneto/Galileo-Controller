@@ -1,3 +1,5 @@
+#include <lcdconfig.h.h>
+
 void initDisplay(int i2cFileDescriptor) {
     if(i2cFileDescriptor < SUCCESS) {
         throwError("on opening /dev/i2c-0");

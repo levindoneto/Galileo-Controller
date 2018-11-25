@@ -1,3 +1,5 @@
+#include <backlightconfig.h>
+
 void initBacklight(int i2cFileDescriptor) {
     if(ioctl(i2cFileDescriptor, I2C_SLAVE,BL_ADDR) < SUCCESS) {
         throwError("ioctl on /dev/i2c-0");

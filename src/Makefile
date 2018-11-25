@@ -1,8 +1,8 @@
-TARGET=main
+TARGET=controller
 SRCS=$(TARGET).c
 
-FLAGS=-O2 -Wall -g -MMD
-INCLUDE=-I. -I../include
+FLAGS=-O2 -Wall -MMD
+INCLUDE=-I. -I../include/components/display
 LIBDIR=-L../lib
 LIBS=-lgalileo2
 

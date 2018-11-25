@@ -12,7 +12,9 @@ Controller for a rotary actuator servomotor implemented for Intel Galileo Gen2.
 
 ## How to use
 ```
-$ cd src/
+$ cd scripts/
+$ source iss_setup.sh
+$ cd ../src/
 $ make clean
 $ make
 $ make run

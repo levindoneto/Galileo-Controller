@@ -21,4 +21,4 @@
   * @param: {const char*} text to be displayed.
   * @return: {int} status of the writing to the display LCD.
   */
-int writeDisplay(const char* textToWrite)
+int writeDisplay(const char* textToWrite);

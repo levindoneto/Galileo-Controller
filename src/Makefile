@@ -21,7 +21,7 @@ $(TARGET): $(SRCS:.c=.o)
 -include $(SRCS:.c=.d)
 
 clean:
-	rm -f *~ *.bak *.o *.d components/display/*.d components/display/*.o commons/*.o commons/*.d controller
+	rm -f *~ *.bak *.o *.d components/display/*.d components/display/*.o commons/*.o commons/*.d
 
 distclean: clean
 	rm -f $(TARGET)

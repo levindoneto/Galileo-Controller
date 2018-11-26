@@ -10,8 +10,9 @@ int main(int argc,char *argv[]) {
     initBacklight(fileDescriptor);
 
     const char* textToWrite0 = "TEST CONTROLLER";
+    const char* textToWrite1 = "LINE 2 ...";
 
-    writeDisplay(fileDescriptor, textToWrite0, NULL);
+    writeDisplay(fileDescriptor, textToWrite0, textToWrite1);
 
     return SUCCESS;
 }

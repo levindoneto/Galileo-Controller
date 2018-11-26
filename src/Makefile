@@ -25,7 +25,3 @@ clean:
 
 distclean: clean
 	rm -f $(TARGET)
-
-run:
-	cd bin/
-	./main

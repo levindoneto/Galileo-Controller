@@ -1,4 +1,4 @@
-# galileo-motor-controller
+# Galileo Controller
 Controller for a rotary actuator servomotor implemented for Intel Galileo Gen2.
 
 **Author:** Levindo Gabriel Taschetto Neto.
@@ -7,15 +7,38 @@ Controller for a rotary actuator servomotor implemented for Intel Galileo Gen2.
 
 *  Pushbutton;
 *  Servomotor;
-*  Display LCD with Backlight;
+*  Grove-LCD RGB Backlight v4.0;
 *  Potentiometer;
 
 ## How to use
+### Configure the Cross Compiler
 ```
 $ cd scripts/
 $ source iss_setup.sh
+```
+
+### Compile the controller for Galileo on the host
+```
 $ cd ../src/
 $ make clean
 $ make
-$ make run
+```
+
+### GPIO Setup
+#### On the host
+```
+$ scp init/config root@<IP_GALILEO>:
+```
+#### On the Galileo Gen2 ($root)
+```
+$ groupadd -r config
+$ groupmems -g config -a <USERNAME>
+$ cp ~/config /etc/init.d
+$ chmod +x /etc/init.d/config
+$ update-rc.d config defaults
+$ reboot
+```
+
+### Copy the executable to the Intel Galileo Gen2
+$ scp controller <USER>@<IP_GALILEO>:
 ```

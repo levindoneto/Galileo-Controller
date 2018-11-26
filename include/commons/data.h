@@ -3,4 +3,6 @@
 
 // Data for writing onto the LCD display
 #define DATA_0 0
-#define DATA_0 255
+#define DATA_255 255
+
+#endif

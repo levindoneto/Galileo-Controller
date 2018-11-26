@@ -1,4 +1,6 @@
 #ifndef POTENTIOMETER_H
 #define POTENTIOMETER_H
 
-#include <status.h>
+#include <../commons/status.h>
+
+#endif

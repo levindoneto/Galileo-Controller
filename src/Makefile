@@ -22,8 +22,7 @@ $(TARGET): $(SRCS:.c=.o)
 
 clean:
 	rm -f *~ *.bak *.o *.d components/display/*.d components/display/*.o \
-	commons/*.o commons/*.d  components/*.o  components/*.d components/pushbutton*.d components/pushbutton*.o\
-	 components/pushbuttonconfig*.d components/pushbuttonconfig*.o
+	commons/*.o commons/*.d  components/*.o  components/*.d components/pushbutton/*.d components/pushbutton/*.o\
 
 distclean: clean
 	rm -f $(TARGET)

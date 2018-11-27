@@ -1,0 +1,72 @@
+#EXPORTS -----------------------------------------------------------------------
+    # gpio49 = in = neither pull-up nor pull-down
+    if [ ! -d /sys/class/gpio/gpio49 ] ; then
+        echo -n "49" > /sys/class/gpio/export
+    fi
+    echo -n "in" > /sys/class/gpio/gpio49/direction
+
+    # gpio51 = in = neither pull-up nor pull-down
+    if [ ! -d /sys/class/gpio/gpio51 ] ; then
+        echo -n "51" > /sys/class/gpio/export
+    fi
+    echo -n "in" > /sys/class/gpio/gpio51/direction
+
+    # gpio53 = in = neither pull-up nor pull-down
+    if [ ! -d /sys/class/gpio/gpio53 ] ; then
+        echo -n "53" > /sys/class/gpio/export
+    fi
+    echo -n "in" > /sys/class/gpio/gpio53/direction
+
+    # gpio55 = in = neither pull-up nor pull-down
+    if [ ! -d /sys/class/gpio/gpio55 ] ; then
+        echo -n "55" > /sys/class/gpio/export
+    fi
+    echo -n "in" > /sys/class/gpio/gpio55/direction
+
+    for i in {0..3} ; do
+        chgrp adc /sys/bus/iio/devices/iio:device0/in_voltage"$i"_scale
+        chmod g+r /sys/bus/iio/devices/iio:device0/in_voltage"$i"_scale
+
+        chgrp adc /sys/bus/iio/devices/iio:device0/scan_elements/in_voltage"$i"_en
+    chmod g+rw /sys/bus/iio/devices/iio:device0/scan_elements/in_voltage"$i"_en
+    done;
+
+    chgrp adc /sys/bus/iio/devices/iio:device0/scan_elements/in_timestamp_en
+    chmod g+rw /sys/bus/iio/devices/iio:device0/scan_elements/in_timestamp_en
+
+    chgrp adc /sys/bus/iio/devices/iio:device0/buffer/enable
+    chmod g+rw /sys/bus/iio/devices/iio:device0/buffer/enable
+    chgrp adc /sys/bus/iio/devices/iio:device0/buffer/length
+    chmod g+rw /sys/bus/iio/devices/iio:device0/buffer/length
+
+    modprobe iio-trig-sysfs
+    echo -n "0" > /sys/bus/iio/devices/iio_sysfs_trigger/add_trigger
+
+    chgrp adc /sys/bus/iio/devices/trigger0/trigger_now
+    chmod g+w /sys/bus/iio/devices/trigger0/trigger_now
+
+    modprobe iio-trig-hrtimer
+    echo -n "1" > /sys/bus/iio/devices/iio_hrtimer_trigger/add_trigger
+
+    chgrp adc /sys/bus/iio/devices/trigger1/frequency
+    chmod g+rw /sys/bus/iio/devices/trigger1/frequency
+
+    chgrp adc /sys/bus/iio/devices/iio:device0/trigger/current_trigger
+    chmod g+rw /sys/bus/iio/devices/iio:device0/trigger/current_trigger
+
+    chgrp adc /dev/iio:device0
+    chmod g+r /dev/iio:device0
+    ;;
+
+#UNEXPORTS ---------------------------------------------------------------------
+	echo "\n" > /sys/bus/iio/devices/iio:device0/trigger/current_trigger
+
+	echo -n "1" > /sys/bus/iio/devices/iio_hrtimer_trigger/remove_trigger
+	rmmod iio-trig-hrtimer
+	echo -n "0" > /sys/bus/iio/devices/iio_sysfs_trigger/remove_trigger
+	rmmod iio-trig-sysfs
+
+	echo -n "49" > /sys/class/gpio/unexport
+	echo -n "51" > /sys/class/gpio/unexport
+	echo -n "53" > /sys/class/gpio/unexport
+	echo -n "55" > /sys/class/gpio/unexport

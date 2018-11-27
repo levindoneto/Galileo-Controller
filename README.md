@@ -33,9 +33,9 @@ $ scp init/config root@<IP_GALILEO>:
 ```
 $ groupadd -r configcontroller
 $ groupmems -g configcontroller -a <USERNAME>
-$ cp ~/config /etc/init.d
-$ chmod +x /etc/init.d/config
-$ update-rc.d config defaults
+$ cp ~/configController /etc/init.d
+$ chmod +x /etc/init.d/configController
+$ update-rc.d configController defaults
 $ reboot
 ```
 

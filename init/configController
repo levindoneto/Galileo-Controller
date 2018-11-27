@@ -65,6 +65,12 @@ case "$1" in
 	chgrp i2c /dev/i2c-0
 	chmod g+rw /dev/i2c-0
 	;;
+    #----------------------------------------------------------------#
+
+    #******* CONTINUOUS CONFIGURE A0,A1,A2,A3 AND TRIGGERS ***********#
+    # continuousConfigConfig->exports
+    #----------------------------------------------------------------#
+
     stop)
     #************ UNEXTPORT I2C -> LCD DISPLAY **********************#
     # No pull-up on IO18
@@ -83,6 +89,10 @@ case "$1" in
     echo -n "37" > /sys/class/gpio/unexport
     echo -n "36" > /sys/class/gpio/unexport
     echo -n "6" > /sys/class/gpio/unexport
+    #----------------------------------------------------------------#
+
+    #********* CONTINUOUS UNEXPORT A0,A1,A2,A3 AND TRIGGERS *********#
+    # continuousConfig->unexports
     #----------------------------------------------------------------#
 
     ;;

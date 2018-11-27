@@ -31,8 +31,8 @@ $ scp init/config root@<IP_GALILEO>:
 ```
 #### On the Galileo Gen2 ($root)
 ```
-$ groupadd -r config
-$ groupmems -g config -a <USERNAME>
+$ groupadd -r configcontroller
+$ groupmems -g configcontroller -a <USERNAME>
 $ cp ~/config /etc/init.d
 $ chmod +x /etc/init.d/config
 $ update-rc.d config defaults

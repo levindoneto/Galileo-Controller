@@ -1,6 +1,6 @@
 #ifndef SERVOMOTOR_H
 #define SERVOMOTOR_H
 
-#include <status.h>
+#include "../commons/status.h"
 
 #endif

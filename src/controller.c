@@ -1,4 +1,5 @@
 #include "../include/components/display/lcd.h"
+#include "../include/components/pushbutton/pushbutton.h"
 
 int main(int argc,char *argv[]) {
     // Open i2c pseudofile in a writing mode
@@ -11,6 +12,8 @@ int main(int argc,char *argv[]) {
 
     const char* textToWrite0 = "TEST CONTROLLER";
     const char* textToWrite1 = "LINE 2 ...";
+
+    getPushbuttonValue();
 
     writeDisplay(fileDescriptor, textToWrite0, textToWrite1);
 

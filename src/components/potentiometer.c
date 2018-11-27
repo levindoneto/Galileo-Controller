@@ -1,1 +1,1 @@
-#include <potentiometer.h>
+#include  "../../include/components/potentiometer.h"

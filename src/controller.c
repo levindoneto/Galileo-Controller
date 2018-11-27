@@ -10,10 +10,10 @@ int main(int argc,char *argv[]) {
     prepareDisplay(fileDescriptor);
     initBacklight(fileDescriptor);
 
-    const char* textToWrite0 = "TEST CONTROLLER";
-    const char* textToWrite1 = "LINE 2 ...";
+    const char* textToWrite0 = "TEST\0";
+    const char* textToWrite1 = "LINE2\0";
 
-    getPushbuttonValue();
+    //getPushbuttonValue();
 
     writeDisplay(fileDescriptor, textToWrite0, textToWrite1);
 

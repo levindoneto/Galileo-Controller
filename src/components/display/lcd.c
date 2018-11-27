@@ -15,10 +15,10 @@ int writeDisplay(int fileDescriptor, const char* textToWriteLine0,
     }
     // Display second line
     i2c_write_reg(fileDescriptor,LCD_C0,LCD_DDRAMADDRSET | SECOND_ROW_LCD);
-    i2c_write_reg(fileDescriptor,LCD_RS,textToWriteLine1[i]);
-        for(i = 0; i < strlen(textToWriteLine1); i++) {
+    for(i = 0; i < strlen(textToWriteLine1); i++) {
+        i2c_write_reg(fileDescriptor, LCD_RS, textToWriteLine1[i]);
     }
-    
+
     setBacklightColor(fileDescriptor, RED);
 
     close(fileDescriptor);

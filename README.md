@@ -25,7 +25,7 @@ $ make
 ```
 
 ### GPIO Setup
-Access (init/)[init/].
+Access [init/](init/).
 
 ### Copy the executable to the Intel Galileo Gen2
 $ scp controller <USER>@<IP_GALILEO>:

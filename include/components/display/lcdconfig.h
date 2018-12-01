@@ -6,8 +6,8 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <sys/ioctl.h>
-#include "../../galileo/i2cutil.h"
-#include "../../galileo/jhdlcd.h"
+#include "../../../lib/i2cutil.h"
+#include "../../../lib/jhdlcd.h"
 #include "../../commons/errors.h"
 #include "../../commons/status.h"
 

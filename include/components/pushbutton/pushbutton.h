@@ -6,7 +6,7 @@
 #include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "../../galileo/galileo2io.h"
+#include "../../../lib/galileo2io.h"
 #include "../../commons/status.h"
 #include "pushbuttonconfig.h"
 

@@ -15,8 +15,7 @@ CCARFLAGS=-crvs
 all: $(TARGET)
 
 $(TARGET): $(SRCS:.c=.o)
-	$(CCAR) $(CCARFLAGS) $@ $^ 
-	mv $(TARGET) ..
+	$(CCAR) $(CCARFLAGS) $@ $^
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
@@ -27,4 +26,4 @@ clean:
 	rm -f *~ *.bak *.o *.d
 
 distclean: clean
-	rm -f ../$(TARGET)
+	rm -f $(TARGET)

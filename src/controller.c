@@ -1,5 +1,4 @@
-#include "../include/components/display/lcd.h"
-#include "../include/components/pushbutton/pushbutton.h"
+#include "../include/controller.h"
 
 int main(int argc,char *argv[]) {
     // Open i2c pseudofile in a writing mode

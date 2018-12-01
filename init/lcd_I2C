@@ -13,21 +13,21 @@
 case "$1" in
     start|restart|force-reload)
 
-    # Pull-up on IO18
+    # I2C-0 (I2C SDA - IO18): 22K RESISTOR -> gpio57 => pull-up (dir: out, value: 1)
     if [ ! -d /sys/class/gpio/gpio57 ] ; then
         echo -n "57" > /sys/class/gpio/export
     fi
     echo "out" > /sys/class/gpio/gpio57/direction
     echo "1" > /sys/class/gpio/gpio57/value
 
-    # Select I2C on IO18 and IO19
+    # I2C-0: PIN MUX -> 1 GPIO: gpio60(L), L: out, 0 (selected on IO18 and IO19)
     if [ ! -d /sys/class/gpio/gpio60 ] ; then
         echo -n "60" > /sys/class/gpio/export
     fi
     echo "out" > /sys/class/gpio/gpio60/direction
     echo "0" > /sys/class/gpio/gpio60/value
 
-    # Pull-up on IO19
+    # I2C-0 (I2C SCL - IO19): 22K RESISTOR -> gpio59 => pull-up (dir: out, value: 1)
     if [ ! -d /sys/class/gpio/gpio59 ] ; then
         echo -n "59" > /sys/class/gpio/export
     fi
@@ -39,15 +39,16 @@ case "$1" in
     chmod g+rw /dev/i2c-0
     ;;
     stop)
-    # No pull-up on IO18
+
+    # Unexport IO18's 22k pull-up resistor
     echo "in" > /sys/class/gpio/gpio57/direction
     echo "57" > /sys/class/gpio/unexport
 
-    # GPIO on IO18 and IO19
+    # Unexport pin mux (1_gpio)
     echo "1" > /sys/class/gpio/gpio60/value
     echo "60" > /sys/class/gpio/unexport
 
-    # No pull-up on  IO19
+    # Unexport IO19's 22k pull-up resistor
     echo "in" > /sys/class/gpio/gpio59/direction
     echo "59" > /sys/class/gpio/unexport
     ;;

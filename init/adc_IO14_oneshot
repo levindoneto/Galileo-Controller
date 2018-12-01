@@ -12,21 +12,21 @@
 
 case "$1" in
     start|restart|force-reload)
-    # gpio49 = in = neither pull-up nor pull-down
+    # ADC0: 22K RESISTOR -> gpio49 => Neither pull-down nor pull-up (dir: in, no value)
     if [ ! -d /sys/class/gpio/gpio49 ] ; then
         echo -n "49" > /sys/class/gpio/export
     fi
     echo -n "in" > /sys/class/gpio/gpio49/direction
 
     # Permission to in_voltage0_raw and in_voltage0_scale to have one-shot mode
-    chgrp adc /sys/bus/iio/devices/iio:device0/in_voltage0_raw
+    chgrp examgroup /sys/bus/iio/devices/iio:device0/in_voltage0_raw
     chmod g+r /sys/bus/iio/devices/iio:device0/in_voltage0_raw
-    chgrp adc /sys/bus/iio/devices/iio:device0/in_voltage0_scale
+    chgrp examgroup /sys/bus/iio/devices/iio:device0/in_voltage0_scale
     chmod g+r /sys/bus/iio/devices/iio:device0/in_voltage0_scale
     ;;
     stop)
 
-    echo -n "49" > /sys/class/gpio/unexport
+    echo -n "49" > /sys/class/gpio/unexport # Unexport 22k resistor
     ;;
     status)
     ;;

@@ -17,7 +17,7 @@ case "$1" in
         echo -n "1" > /sys/class/pwm/pwmchip0/export
     fi
 
-    # Permissions for using the Galileo's PWM
+    # Permissions for using the Galileo's PWM (examgroup's members)
     chgrp examgroup /sys/class/pwm/pwmchip0/device/pwm_period
     chmod g+w /sys/class/pwm/pwmchip0/device/pwm_period
     chgrp examgroup /sys/class/pwm/pwmchip0/pwm1/duty_cycle
@@ -25,29 +25,30 @@ case "$1" in
     chgrp examgroup /sys/class/pwm/pwmchip0/pwm1/enable
     chmod g+w /sys/class/pwm/pwmchip0/pwm1/enable
 
-    # IO3_PWM: PIN MUX -> 1 GPIO: gpio76(L) - No direction needed
+    # IO3_PWM1: PIN MUX -> 1 GPIO: gpio76(L) - No direction needed
     if [ ! -d /sys/class/gpio/gpio76 ] ; then
         echo -n "76" > /sys/class/gpio/export
     fi
     echo -n "0" > /sys/class/gpio/gpio76/value
 
-    # IO3_PWM: PIN MUX -> 2 GPIO: gpio76(H) - No direction needed
+    # IO3_PWM1: PIN MUX -> 2 GPIO: gpio76(H) - No direction needed
     if [ ! -d /sys/class/gpio/gpio64 ] ; then
         echo -n "64" > /sys/class/gpio/export
     fi
     echo -n "1" > /sys/class/gpio/gpio64/value
 
-    # IO3_PWM: LEVEL_SHIFTER -> gpio16 => dir_out [L] (out, 0)
+    # IO3_PWM1: LEVEL_SHIFTER -> gpio16 => dir_out [L] (out, 0)
     if [ ! -d /sys/class/gpio/gpio16 ] ; then
         echo -n "16" > /sys/class/gpio/export
     fi
     echo -n "out" > /sys/class/gpio/gpio16/direction
     echo -n "0" > /sys/class/gpio/gpio16/value
 
-    # IO3_PWM: 22K RESISTOR -> gpio17 => Neither pull-down nor pull-up
+    # IO3_PWM1: 22K RESISTOR -> gpio17 => Neither pull-down nor pull-up (dir: in, no value)
     if [ ! -d /sys/class/gpio/gpio17 ] ; then
         echo -n "17" > /sys/class/gpio/export
     fi
+    # Set gpio17 back to in to avoid short circuits
     echo -n "in" > /sys/class/gpio/gpio17/direction
     ;;
     stop)

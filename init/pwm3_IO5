@@ -1,6 +1,6 @@
 #! /bin/sh
 ### BEGIN INIT INFO
-# Provides:         pwm_IO5
+# Provides:         pwm3_IO5
 # Required-Start:
 # Should-Start:
 # Required-Stop:

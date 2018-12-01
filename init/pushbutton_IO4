@@ -22,7 +22,7 @@ case "$1" in
 	chgrp gpio /sys/class/gpio/gpio6/edge
 	chmod g+rw /sys/class/gpio/gpio6/edge
 
-	# gpio36 = 1 => IO4=in
+	# gpio36 = 1 => IO4=dir_in
 	if [ ! -d /sys/class/gpio/gpio36 ] ; then
 	    echo -n "36" > /sys/class/gpio/export
 	fi
@@ -35,8 +35,6 @@ case "$1" in
 	fi
 	echo -n "out" > /sys/class/gpio/gpio37/direction
 	echo -n "0" > /sys/class/gpio/gpio37/value
-
-
 	;;
     stop)
     	echo -n "in" > /sys/class/gpio/gpio37/direction

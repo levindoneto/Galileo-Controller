@@ -1,5 +1,5 @@
-#include  "../../include/components/led/ledconfig.h"
+#include  "../../../include/components/led/ledconfig.h"
 
-void initPushbutton() {
+void initLed() {
     printf("todo");
 }

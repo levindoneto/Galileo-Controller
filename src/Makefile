@@ -1,5 +1,5 @@
 TARGET=controller
-SRCS=commons/errors.c  components/pushbutton/pushbuttonconfig.c components/pushbutton/pushbutton.c components/potentiometer/potentiometer.c components/servomotor/servomotor.c components/display/lcdconfig.c components/display/backlightconfig.c components/display/lcd.c $(TARGET).c
+SRCS=commons/errors.c components/led/ledconfig.c components/led/led.c components/pushbutton/pushbuttonconfig.c components/pushbutton/pushbutton.c components/potentiometer/potentiometer.c components/servomotor/servomotor.c components/display/lcdconfig.c components/display/backlightconfig.c components/display/lcd.c $(TARGET).c
 
 FLAGS=-O2 -MMD
 INCLUDE=-I. -I../include/

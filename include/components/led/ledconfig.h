@@ -7,6 +7,6 @@
   * @param: {void}.
   * @return: {void}.
   */
-void initPushbutton();
+void initLed();
 
 #endif

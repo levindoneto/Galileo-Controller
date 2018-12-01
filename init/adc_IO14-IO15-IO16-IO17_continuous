@@ -22,7 +22,7 @@ case "$1" in
     if [ ! -d /sys/class/gpio/gpio51 ] ; then
         echo -n "51" > /sys/class/gpio/export
     fi
-        echo -n "in" > /sys/class/gpio/gpio51/direction
+    echo -n "in" > /sys/class/gpio/gpio51/direction
 
     # ADC1: 22K RESISTOR -> gpio53 => Neither pull-down nor pull-up
     if [ ! -d /sys/class/gpio/gpio53 ] ; then

@@ -12,29 +12,29 @@
 
 case "$1" in
     start|restart|force-reload)
-	# gpio49 = in = neither pull-up nor pull-down
-	if [ ! -d /sys/class/gpio/gpio49 ] ; then
-	    echo -n "49" > /sys/class/gpio/export
-	fi
-	echo -n "in" > /sys/class/gpio/gpio49/direction
+    # gpio49 = in = neither pull-up nor pull-down
+    if [ ! -d /sys/class/gpio/gpio49 ] ; then
+        echo -n "49" > /sys/class/gpio/export
+    fi
+    echo -n "in" > /sys/class/gpio/gpio49/direction
 
-	# Permission to in_voltage0_raw and in_voltage0_scale to have one-shot mode
-        chgrp adc /sys/bus/iio/devices/iio:device0/in_voltage0_raw
-        chmod g+r /sys/bus/iio/devices/iio:device0/in_voltage0_raw
-        chgrp adc /sys/bus/iio/devices/iio:device0/in_voltage0_scale
-        chmod g+r /sys/bus/iio/devices/iio:device0/in_voltage0_scale
-    	;;
+    # Permission to in_voltage0_raw and in_voltage0_scale to have one-shot mode
+    chgrp adc /sys/bus/iio/devices/iio:device0/in_voltage0_raw
+    chmod g+r /sys/bus/iio/devices/iio:device0/in_voltage0_raw
+    chgrp adc /sys/bus/iio/devices/iio:device0/in_voltage0_scale
+    chmod g+r /sys/bus/iio/devices/iio:device0/in_voltage0_scale
+    ;;
     stop)
 
-	echo -n "49" > /sys/class/gpio/unexport
-	;;
+    echo -n "49" > /sys/class/gpio/unexport
+    ;;
     status)
-	;;
+    ;;
     *)
-	echo -n "Usage: $0 "
-	echo "{start|stop|restart|force-reload|status}"
-	exit 1
-	;;
+    echo -n "Usage: $0 "
+    echo "{start|stop|restart|force-reload|status}"
+    exit 1
+    ;;
 esac
 
 exit 0

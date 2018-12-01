@@ -13,51 +13,51 @@
 case "$1" in
     start|restart|force-reload)
 
-	# Pull-up on IO18
-	if [ ! -d /sys/class/gpio/gpio57 ] ; then
-    		echo -n "57" > /sys/class/gpio/export
-	fi
-	echo "out" > /sys/class/gpio/gpio57/direction
-	echo "1" > /sys/class/gpio/gpio57/value
+    # Pull-up on IO18
+    if [ ! -d /sys/class/gpio/gpio57 ] ; then
+        echo -n "57" > /sys/class/gpio/export
+    fi
+    echo "out" > /sys/class/gpio/gpio57/direction
+    echo "1" > /sys/class/gpio/gpio57/value
 
-	# Select I2C on IO18 and IO19
-	if [ ! -d /sys/class/gpio/gpio60 ] ; then
-    		echo -n "60" > /sys/class/gpio/export
-	fi
-	echo "out" > /sys/class/gpio/gpio60/direction
-	echo "0" > /sys/class/gpio/gpio60/value
+    # Select I2C on IO18 and IO19
+    if [ ! -d /sys/class/gpio/gpio60 ] ; then
+        echo -n "60" > /sys/class/gpio/export
+    fi
+    echo "out" > /sys/class/gpio/gpio60/direction
+    echo "0" > /sys/class/gpio/gpio60/value
 
-	# Pull-up on IO19
-	if [ ! -d /sys/class/gpio/gpio59 ] ; then
-    		echo -n "59" > /sys/class/gpio/export
-	fi
-	echo "out" > /sys/class/gpio/gpio59/direction
-	echo "1" > /sys/class/gpio/gpio59/value
+    # Pull-up on IO19
+    if [ ! -d /sys/class/gpio/gpio59 ] ; then
+        echo -n "59" > /sys/class/gpio/export
+    fi
+    echo "out" > /sys/class/gpio/gpio59/direction
+    echo "1" > /sys/class/gpio/gpio59/value
 
-	chgrp i2c /dev/i2c-0
-	chmod g+rw /dev/i2c-0
-
-	;;
+    # Permissions for users of the examgroup to access the i2c
+    chgrp examgroup /dev/i2c-0
+    chmod g+rw /dev/i2c-0
+    ;;
     stop)
     # No pull-up on IO18
-	echo "in" > /sys/class/gpio/gpio57/direction
-	ecbo "57" > /sys/class/gpio/unexport
+    echo "in" > /sys/class/gpio/gpio57/direction
+    echo "57" > /sys/class/gpio/unexport
 
-	# GPIO on IO18 and IO19
-	echo "1" > /sys/class/gpio/gpio60/value
-	echo "60" > /sys/class/gpio/unexport
+    # GPIO on IO18 and IO19
+    echo "1" > /sys/class/gpio/gpio60/value
+    echo "60" > /sys/class/gpio/unexport
 
-	# No pull-up on  IO19
-	echo "in" > /sys/class/gpio/gpio59/direction
-	echo "59" > /sys/class/gpio/unexport
-	;;
+    # No pull-up on  IO19
+    echo "in" > /sys/class/gpio/gpio59/direction
+    echo "59" > /sys/class/gpio/unexport
+    ;;
     status)
-	;;
+    ;;
     *)
-	echo -n "Usage: $0 "
-	echo "{start|stop|restart|force-reload|status}"
-	exit 1
-	;;
+    echo -n "Usage: $0 "
+    echo "{start|stop|restart|force-reload|status}"
+    exit 1
+    ;;
 esac
 
 exit 0

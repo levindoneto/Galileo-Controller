@@ -6,8 +6,8 @@
 # Required-Stop:
 # Default-Start:     S
 # Default-Stop:
-# Short-Description: Configures GPIO and ADCs for the exam of microcontrollers 18/2.
-# Description:       Configures GPIO and ADCs (A0-IO14, A1-IO15, A2-IO16, A3-IO17).
+# Short-Description: It configures GPIO and ADCs (A0-IO14, A1-IO15, A2-IO16, A3-IO17).
+# Description:       Levindo Neto and Vinicius Fratin - 18/2.
 ### END INIT INFO
 
 case "$1" in
@@ -22,7 +22,7 @@ case "$1" in
     if [ ! -d /sys/class/gpio/gpio51 ] ; then
         echo -n "51" > /sys/class/gpio/export
     fi
-    echo -n "in" > /sys/class/gpio/gpio51/direction
+        echo -n "in" > /sys/class/gpio/gpio51/direction
 
     # gpio53 = in = neither pull-up nor pull-down  >> A2 <<
     if [ ! -d /sys/class/gpio/gpio53 ] ; then
@@ -35,12 +35,13 @@ case "$1" in
         echo -n "55" > /sys/class/gpio/export
     fi
     echo -n "in" > /sys/class/gpio/gpio55/direction
+
     # Add needed permissions for each all ADC connections from
     for i in {0..3} ; do
         chgrp adc /sys/bus/iio/devices/iio:device0/in_voltage"$i"_scale
         chmod g+r /sys/bus/iio/devices/iio:device0/in_voltage"$i"_scale
         chgrp adc /sys/bus/iio/devices/iio:device0/scan_elements/in_voltage"$i"_en
-		chmod g+rw /sys/bus/iio/devices/iio:device0/scan_elements/in_voltage"$i"_en
+        chmod g+rw /sys/bus/iio/devices/iio:device0/scan_elements/in_voltage"$i"_en
     done;
 
     chgrp adc /sys/bus/iio/devices/iio:device0/scan_elements/in_timestamp_en
@@ -85,7 +86,7 @@ case "$1" in
     echo -n "55" > /sys/class/gpio/unexport
     ;;
     status)
-        cat /sys/bus/iio/devices/iio:device0/trigger/current_trigger
+    cat /sys/bus/iio/devices/iio:device0/trigger/current_trigger
     ;;
     *)
     echo -n "Usage: $0 "

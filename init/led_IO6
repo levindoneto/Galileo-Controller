@@ -12,52 +12,52 @@
 
 case "$1" in
     start|restart|force-reload)
-	# IO6: PIN MUX -> 1 GPIO: gpio68(L), L: out, 0
-	if [ ! -d /sys/class/gpio/gpio68 ] ; then
-	    echo -n "68" > /sys/class/gpio/export
-	fi
-	echo -n "out" > /sys/class/gpio/gpio76/direction
-	echo -n "0" > /sys/class/gpio/gpio76/value
+    # IO6: PIN MUX -> 1 GPIO: gpio68(L), L: out, 0
+    if [ ! -d /sys/class/gpio/gpio68 ] ; then
+        echo -n "68" > /sys/class/gpio/export
+    fi
+    echo -n "out" > /sys/class/gpio/gpio76/direction
+    echo -n "0" > /sys/class/gpio/gpio76/value
 
-	# IO6: LINUX -> gpio1
-	if [ ! -d /sys/class/gpio/gpio1 ] ; then
-	    echo -n "1" > /sys/class/gpio/export
-	fi
-	echo -n "out" > /sys/class/gpio/gpio1/direction
-	chgrp examgroup /sys/class/gpio/gpio1/value
-	chmod g+rw /sys/class/gpio/gpio1/value
+    # IO6: LINUX -> gpio1
+    if [ ! -d /sys/class/gpio/gpio1 ] ; then
+        echo -n "1" > /sys/class/gpio/export
+    fi
+    echo -n "out" > /sys/class/gpio/gpio1/direction
 
-	# IO6: LEVEL_SHIFTER -> gpio20 => dir_out [L] (out, 0)
-	if [ ! -d /sys/class/gpio/gpio20 ] ; then
-	    echo -n "20" > /sys/class/gpio/export
-	fi
-	echo -n "out" > /sys/class/gpio/gpio20/direction
-	echo -n "0" > /sys/class/gpio/gpio20/value
+    # Give permissions to the members of examgroup to access the gpio
+    chgrp examgroup /sys/class/gpio/gpio1/value
+    chmod g+rw /sys/class/gpio/gpio1/value
 
-	# IO6: 22K RESISTOR -> gpio21 => pull-down (default=off) (out, 0)
-	if [ ! -d /sys/class/gpio/gpio21 ] ; then
-	    echo -n "21" > /sys/class/gpio/export
-	fi
-	echo -n "out" > /sys/class/gpio/gpio21/direction
-	echo -n "0" > /sys/class/gpio/gpio21/value
+    # IO6: LEVEL_SHIFTER -> gpio20 => dir_out [L] (out, 0)
+    if [ ! -d /sys/class/gpio/gpio20 ] ; then
+        echo -n "20" > /sys/class/gpio/export
+    fi
+    echo -n "out" > /sys/class/gpio/gpio20/direction
+    echo -n "0" > /sys/class/gpio/gpio20/value
 
-	;;
+    # IO6: 22K RESISTOR -> gpio21 => pull-down (default=off) (out, 0)
+    if [ ! -d /sys/class/gpio/gpio21 ] ; then
+        echo -n "21" > /sys/class/gpio/export
+    fi
+    echo -n "out" > /sys/class/gpio/gpio21/direction
+    echo -n "0" > /sys/class/gpio/gpio21/value
+    ;;
     stop)
-    echo -n "in" > /sys/class/gpio/gpio1/direction
+    echo -n "in" > /sys/class/gpio/gpio1/direction # Put gpio1 to dir_in
     echo -n "68" > /sys/class/gpio/unexport # Unexport pin mux
-	echo -n "1" > /sys/class/gpio/unexport # Unexport linux
-	echo -n "20" > /sys/class/gpio/unexport # Unexport level shifter
-	echo -n "21" > /sys/class/gpio/unexport # Unexport 22k resistor
-
-	;;
+    echo -n "1" > /sys/class/gpio/unexport # Unexport linux
+    echo -n "20" > /sys/class/gpio/unexport # Unexport level shifter
+    echo -n "21" > /sys/class/gpio/unexport # Unexport 22k resistor
+    ;;
     status)
-    	ls -d /sys/class/gpio/gpio*
-	;;
+        ls -d /sys/class/gpio/gpio*
+    ;;
     *)
-	echo -n "Usage: $0 "
-	echo "{start|stop|restart|force-reload|status}"
-	exit 1
-	;;
+    echo -n "Usage: $0 "
+    echo "{start|stop|restart|force-reload|status}"
+    exit 1
+    ;;
 esac
 
 exit 0

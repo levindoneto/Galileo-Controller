@@ -18,18 +18,18 @@ case "$1" in
     fi
 
     # Permissions for using the Galileo's PWM
-	chgrp examgroup /sys/class/pwm/pwmchip0/device/pwm_period
-	chmod g+w /sys/class/pwm/pwmchip0/device/pwm_period
-	chgrp examgroup /sys/class/pwm/pwmchip0/pwm1/duty_cycle
-	chmod g+w /sys/class/pwm/pwmchip0/pwm1/duty_cycle
-	chgrp examgroup /sys/class/pwm/pwmchip0/pwm1/enable
-	chmod g+w /sys/class/pwm/pwmchip0/pwm1/enable
+    chgrp examgroup /sys/class/pwm/pwmchip0/device/pwm_period
+    chmod g+w /sys/class/pwm/pwmchip0/device/pwm_period
+    chgrp examgroup /sys/class/pwm/pwmchip0/pwm1/duty_cycle
+    chmod g+w /sys/class/pwm/pwmchip0/pwm1/duty_cycle
+    chgrp examgroup /sys/class/pwm/pwmchip0/pwm1/enable
+    chmod g+w /sys/class/pwm/pwmchip0/pwm1/enable
 
     # IO3_PWM: PIN MUX -> 1 GPIO: gpio76(L) - No direction needed
-	if [ ! -d /sys/class/gpio/gpio76 ] ; then
-	    echo -n "76" > /sys/class/gpio/export
-	fi
-	echo -n "0" > /sys/class/gpio/gpio76/value
+    if [ ! -d /sys/class/gpio/gpio76 ] ; then
+        echo -n "76" > /sys/class/gpio/export
+    fi
+    echo -n "0" > /sys/class/gpio/gpio76/value
 
     # IO3_PWM: PIN MUX -> 2 GPIO: gpio76(H) - No direction needed
     if [ ! -d /sys/class/gpio/gpio64 ] ; then
@@ -38,40 +38,43 @@ case "$1" in
     echo -n "1" > /sys/class/gpio/gpio64/value
 
     # IO3_PWM: LEVEL_SHIFTER -> gpio16 => dir_out [L] (out, 0)
-	if [ ! -d /sys/class/gpio/gpio16 ] ; then
-	    echo -n "16" > /sys/class/gpio/export
-	fi
-	echo -n "out" > /sys/class/gpio/gpio16/direction
-	echo -n "0" > /sys/class/gpio/gpio16/value
+    if [ ! -d /sys/class/gpio/gpio16 ] ; then
+        echo -n "16" > /sys/class/gpio/export
+    fi
+    echo -n "out" > /sys/class/gpio/gpio16/direction
+    echo -n "0" > /sys/class/gpio/gpio16/value
 
     # IO3_PWM: 22K RESISTOR -> gpio17 => Neither pull-down nor pull-up
-	if [ ! -d /sys/class/gpio/gpio17 ] ; then
-	    echo -n "17" > /sys/class/gpio/export
-	fi
-	echo -n "in" > /sys/class/gpio/gpio17/direction
+    if [ ! -d /sys/class/gpio/gpio17 ] ; then
+        echo -n "17" > /sys/class/gpio/export
+    fi
+    echo -n "in" > /sys/class/gpio/gpio17/direction
     ;;
     stop)
+
     echo -n "0" > /sys/class/pwm/pwmchip0/pwm1/enable # Unable PWM_1
     echo -n "76" > /sys/class/gpio/unexport # Unexport pin mux (1_gpio)
     echo -n "64" > /sys/class/gpio/unexport # Unexport pin mux (2_gpio)
-	echo -n "17" > /sys/class/gpio/unexport # Unexport 22K Resistor
-	echo -n "1" > /sys/class/gpio/gpio16/value # level shifter -> in
-	echo -n "16" > /sys/class/gpio/unexport # Unexport level shifter
-	echo -n "1" > /sys/class/pwm/pwmchip0/unexport # Unexport pwn_1
-	;;
+    echo -n "17" > /sys/class/gpio/unexport # Unexport 22K Resistor
+    echo -n "1" > /sys/class/gpio/gpio16/value # level shifter -> in
+    echo -n "16" > /sys/class/gpio/unexport # Unexport level shifter
+    echo -n "1" > /sys/class/pwm/pwmchip0/unexport # Unexport pwn_1
+    ;;
     status)
+
+    # Debugging stuff
     echo -n Period:
     cat /sys/class/pwm/pwmchip0/device/pwm_period
     echo -n Duty Cicle:
     cat /sys/class/pwm/pwmchip0/pwm1/duty_cycle
     echo -n Enable:
     cat /sys/class/pwm/pwmchip0/pwm1/enable
-	;;
+    ;;
     *)
-	echo -n "Usage: $0 "
-	echo "{start|stop|restart|force-reload|status}"
-	exit 1
-	;;
+    echo -n "Usage: $0 "
+    echo "{start|stop|restart|force-reload|status}"
+    exit 1
+    ;;
 esac
 
 exit 0

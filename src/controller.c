@@ -13,12 +13,12 @@ int main(int argc,char *argv[]) {
 
     // TEST LED - IO6
     int test;
-    scanf("%d",&test);
+    scanf("%d", &test);
     printf("Turn on led IO6...");
     int ledFD = initLed();
-    scanf("init: %d",ledFD);
+    scanf("init: %d", ledFD);
     turnOnLed(ledFD);
-    scanf("%d",&test);
+    scanf("%d", &test);
     printf("Turn off led...");
     turnOffLed(ledFD);
     printf("status: %d", closeLed(ledFD));
@@ -28,7 +28,6 @@ int main(int argc,char *argv[]) {
     sleep(3);
     turnOnServomotorDegrees(2000000, -90.0);
     sleep(3);
-
 
     return SUCCESS;
 }

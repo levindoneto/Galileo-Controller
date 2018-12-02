@@ -37,15 +37,13 @@
 
 static double scale[4];
 
-int initAdcContinuous()
-{
+int initAdcContinuous() {
         char path_str[80];
 	char data_str[80];
 	int i;
         pputs("/sys/bus/iio/devices/iio:device0/buffer/enable","0");
 
-	for(i=0;i < 4;i++)
-        {
+	for(i=0;i < 4;i++) {
                 snprintf(path_str,sizeof path_str,"/sys/bus/iio/devices/iio:device0/in_voltage%d_scale",i);
                 pgets(data_str,sizeof data_str,path_str);
                 scale[i]=atof(data_str)/1000.0;
@@ -71,8 +69,7 @@ int initAdcContinuous()
 
 }
 
-int captureAdcContinuous(struct sensors* raw_data, struct adc_data* final_data)
-{
+int captureAdcContinuous(struct sensors* raw_data, struct adc_data* final_data) {
 	char path_str[80];
 	int fd;
 	int samples;
@@ -80,8 +77,7 @@ int captureAdcContinuous(struct sensors* raw_data, struct adc_data* final_data)
 	pputs("/sys/bus/iio/devices/iio:device0/buffer/enable","1");
  
 #ifdef TRIG_SYSFS
-        for(i=0; i < DATA_POINTS;i++)
-        {
+        for(i=0; i < DATA_POINTS;i++) {
                 pputs("/sys/bus/iio/devices/trigger0/trigger_now","1");
                 usleep(ceil(SAMPLING_PERIOD*1e6));
         }
@@ -93,19 +89,16 @@ int captureAdcContinuous(struct sensors* raw_data, struct adc_data* final_data)
          
         pputs("/sys/bus/iio/devices/iio:device0/trigger/current_trigger","\n");
  
-        if((fd=open("/dev/iio:device0",O_RDONLY)) < 0)
-        {
+        if((fd=open("/dev/iio:device0",O_RDONLY)) < 0) {
                 perror("Opening /dev/iio:device0:");
                 return -1;
         }
 
-	if(raw_data == NULL)
-	{
+	if(raw_data == NULL) {
 		throwError("Raw data structure for ADC continuous mode is NULL.\n");	
 	}
 
-	if(final_data == NULL)
-	{
+	if(final_data == NULL) {
 		throwError("Final data structure for ADC continuous mode is NULL.\n");	
 	}
 
@@ -115,15 +108,13 @@ int captureAdcContinuous(struct sensors* raw_data, struct adc_data* final_data)
          
         pputs("/sys/bus/iio/devices/iio:device0/buffer/length","2");
          
-        for(i=0;i < 4;i++)
-        {
+        for(i=0;i < 4;i++) {
                 snprintf(path_str,sizeof path_str,"/sys/bus/iio/devices/iio:device0/scan_elements/in_voltage%d_en",i);
                 pputs(path_str,"0");
         }
         pputs("/sys/bus/iio/devices/iio:device0/scan_elements/in_timestamp_en","0");
 
-	for(i=0;i < samples;i++)
-        {
+	for(i=0;i < samples;i++) {
                 raw_data[i].adc0=bswap_16(raw_data[i].adc0);
                 raw_data[i].adc1=bswap_16(raw_data[i].adc1);
                 raw_data[i].adc2=bswap_16(raw_data[i].adc2);

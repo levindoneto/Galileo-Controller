@@ -1,5 +1,13 @@
 TARGET=controller
-SRCS=commons/errors.c galileo/pwm.c galileo/adc_continuous.c components/led/ledconfig.c components/led/led.c components/pushbutton/pushbuttonconfig.c components/pushbutton/pushbutton.c components/potentiometer/potentiometer.c components/servomotor/servomotor.c components/display/lcdconfig.c components/display/backlightconfig.c components/display/lcd.c $(TARGET).c
+COMMONS=commons/errors.c
+GALILEO=galileo/pwm.c galileo/adc_continuous.c
+LED=components/led/ledconfig.c components/led/led.c
+PUSHBUTTON=components/pushbutton/pushbuttonconfig.c components/pushbutton/pushbutton.c
+POTENTIOMETER=components/potentiometer/potentiometer.c
+SERVOMOTOR=components/servomotor/servomotor.c
+DISPLAY=components/display/lcdconfig.c components/display/backlightconfig.c components/display/lcd.c
+COMPONENTS=$(LED) $(PUSHBUTTON) $(POTENTIOMETER) $(SERVOMOTOR) $(DISPLAY)
+SRCS=$(COMMONS) $(GALILEO) $(COMPONENTS) $(TARGET).c
 
 FLAGS=-O2 -MMD
 INCLUDE=-I. -I../include/

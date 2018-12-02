@@ -21,4 +21,7 @@ struct adc_data {
 	double elapsed_time;
 };
 
+int initAdcContinuous(); 
+int captureAdcContinuous(struct sensors* raw_data, struct adc_data* final_data);
+ 
 #endif

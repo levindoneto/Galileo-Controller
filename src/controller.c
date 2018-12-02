@@ -1,11 +1,9 @@
 #include "../include/controller.h"
 
 int main(int argc,char *argv[]) {
-    // Open i2c pseudofile in a writing mode
-    int fileDescriptor = open("/dev/i2c-0",O_WRONLY);
 
     // Init display and backlight of the LCD
-    initDisplay(fileDescriptor);
+    int fileDescriptor = initDisplay();
     prepareDisplay(fileDescriptor);
     initBacklight(fileDescriptor);
 
@@ -15,6 +13,17 @@ int main(int argc,char *argv[]) {
     //getPushbuttonValue();
 
     writeDisplay(fileDescriptor, textToWrite0, textToWrite1);
+    // TEST LED - IO6
+    int test;
+    scanf("%d",&test);
+    printf("Turn on led IO6...");
+    int ledFD = initLed();
+    scanf("init: %d",ledFD);
+    turnOnLed(ledFD);
+    scanf("%d",&test);
+    printf("Turn off led...");
+    turnOffLed(ledFD);
+    printf("status: %d", closeLed(ledFD));
 
     return SUCCESS;
 }

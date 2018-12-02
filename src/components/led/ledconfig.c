@@ -2,7 +2,7 @@
 
 int initLed() {
     int ledFileDescriptor;
-    ledFileDescriptor = open("/sys/class/gpio/gpio62/value", O_WRONLY);
+    ledFileDescriptor = open("/sys/class/gpio/gpio1/value", O_WRONLY);
     return ledFileDescriptor;
 }
 

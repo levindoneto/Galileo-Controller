@@ -5,7 +5,7 @@ int writeDisplay(int fileDescriptor, const char* textToWriteLine0,
     int i;
     // Write string on the LCD display
     if(ioctl(fileDescriptor, I2C_SLAVE, LCD_ADDR) < SUCCESS) {
-        throwError("ioctl on /dev/i2c-0");
+        throwError("Error on ioctl on /dev/i2c-0");
     }
 
     // Display first line
@@ -18,8 +18,6 @@ int writeDisplay(int fileDescriptor, const char* textToWriteLine0,
     for(i = 0; i < strlen(textToWriteLine1); i++) {
         i2c_write_reg(fileDescriptor, LCD_RS, textToWriteLine1[i]);
     }
-
-    setBacklightColor(fileDescriptor, RED);
 
     close(fileDescriptor);
     return SUCCESS;

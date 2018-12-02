@@ -15,13 +15,13 @@
 #define LDCCONFIG_H
 
 /** Initialize the the LCD display.
-  * @param: {int} file descriptor.
-  * @return: {void}.
+  * @param:  {void}.
+  * @return: {int} file descriptor.
   */
-void initDisplay(int i2cFileDescriptor);
+int initDisplay();
 
 /** Prepare the LCD display to receive data.
-  * @param: {int} file descriptor.
+  * @param:  {int} file descriptor.
   * @return: {void}.
   */
 void prepareDisplay(int i2cFileDescriptor);

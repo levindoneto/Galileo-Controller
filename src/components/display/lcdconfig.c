@@ -1,15 +1,19 @@
 #include "../../../include/components/display/lcdconfig.h"
 
-void initDisplay(int i2cFileDescriptor) {
+int initDisplay() {
+    // Open i2c pseudofile in a writing mode
+    int i2cFileDescriptor = open("/dev/i2c-0",O_WRONLY);
+
     if(i2cFileDescriptor < SUCCESS) {
-        throwError("on opening /dev/i2c-0");
+        throwError("Error on opening /dev/i2c-0");
     }
     usleep(30000);	// Await 30 ms after turning the lcd on
 
     // Initialization of the display LCD
     if(ioctl(i2cFileDescriptor, I2C_SLAVE,LCD_ADDR) < SUCCESS) {
-        throwError("on ioctl on /dev/i2c-0");
+        throwError("Error on ioctl on /dev/i2c-0");
     }
+    return i2cFileDescriptor;
 }
 
 void prepareDisplay(int i2cFileDescriptor) {

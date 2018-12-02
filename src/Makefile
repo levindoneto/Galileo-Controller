@@ -22,7 +22,7 @@ $(TARGET): $(SRCS:.c=.o)
 
 clean:
 	rm -f *~ *.bak *.o *.d components/display/*.d components/display/*.o components/led/*.d components/led/*.o \
-	commons/*.o commons/*.d  components/*.o  components/*.d components/pushbutton/*.d components/pushbutton/*.o\
+	commons/*.o commons/*.d  components/*.o  components/*.d components/pushbutton/*.d components/pushbutton/*.o \
 	components/potentiometer/*.d components/potentiometer/*.o \
 	components/servomotor/*.d components/servomotor/*.o \
 	components/pushbutton/*.d components/pushbutton/*.o

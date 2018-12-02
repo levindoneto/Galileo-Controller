@@ -30,7 +30,7 @@ void setBacklightColor(int i2cFileDescriptor, int color) {
 
 void initBacklight(int i2cFileDescriptor) {
     if(ioctl(i2cFileDescriptor, I2C_SLAVE,BL_ADDR) < SUCCESS) {
-        throwError("ioctl on /dev/i2c-0");
+        throwError("Error on ioctl on /dev/i2c-0");
     }
     i2c_write_reg(i2cFileDescriptor, BL_MODE1, DATA_0);
     i2c_write_reg(i2cFileDescriptor, BL_LEDOUT,BL_RED_GRPPWM | BL_GREEN_GRPPWM |
@@ -38,6 +38,6 @@ void initBacklight(int i2cFileDescriptor) {
     i2c_write_reg(i2cFileDescriptor, BL_MODE2, BL_DMBLNK);
 
     // Init color (white)
-    setBacklightColor(i2cFileDescriptor, WHITE);
+    setBacklightColor(i2cFileDescriptor, RED);
 
 }

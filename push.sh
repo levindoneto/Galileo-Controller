@@ -1,4 +1,5 @@
-echo ">>> Push controller to GalileoGen2 <<<";
+echo ">>> Push controller to the lgtneto user on GalileoGen2 <<<";
 cd src/;
-scp controller lgtneto@<IP_GALILEO>;
+scp controller lgtneto@192.168.0.13:;
+cd ../
 echo ">>> Done! <<<";

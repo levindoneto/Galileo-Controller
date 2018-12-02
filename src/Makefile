@@ -1,5 +1,5 @@
 TARGET=controller
-SRCS=commons/errors.c components/led/ledconfig.c components/led/led.c components/pushbutton/pushbuttonconfig.c components/pushbutton/pushbutton.c components/potentiometer/potentiometer.c components/servomotor/servomotor.c components/display/lcdconfig.c components/display/backlightconfig.c components/display/lcd.c $(TARGET).c
+SRCS=commons/errors.c galileo/pwm.c components/led/ledconfig.c components/led/led.c components/pushbutton/pushbuttonconfig.c components/pushbutton/pushbutton.c components/potentiometer/potentiometer.c components/servomotor/servomotor.c components/display/lcdconfig.c components/display/backlightconfig.c components/display/lcd.c $(TARGET).c
 
 FLAGS=-O2 -MMD
 INCLUDE=-I. -I../include/
@@ -25,7 +25,8 @@ clean:
 	commons/*.o commons/*.d  components/*.o  components/*.d components/pushbutton/*.d components/pushbutton/*.o \
 	components/potentiometer/*.d components/potentiometer/*.o \
 	components/servomotor/*.d components/servomotor/*.o \
-	components/pushbutton/*.d components/pushbutton/*.o
+	components/pushbutton/*.d components/pushbutton/*.o \
+	galileo/*.d galileo/*.o
 
 distclean: clean
 	rm -f $(TARGET)

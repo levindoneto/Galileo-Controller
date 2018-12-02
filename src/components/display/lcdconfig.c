@@ -1,4 +1,4 @@
-#include "../../../include/components/display/lcdconfig.h"
+#include "components/display/lcdconfig.h"
 
 int initDisplay() {
     // Open i2c pseudofile in a writing mode

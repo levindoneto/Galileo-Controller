@@ -6,10 +6,10 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <sys/ioctl.h>
-#include "../../../lib/i2cutil.h"
-#include "../../../lib/jhdlcd.h"
-#include "../../commons/errors.h"
-#include "../../commons/status.h"
+#include "libgalileo/i2cutil.h"
+#include "libgalileo/jhdlcd.h"
+#include "commons/errors.h"
+#include "commons/status.h"
 
 #ifndef LDCCONFIG_H
 #define LDCCONFIG_H

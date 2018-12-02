@@ -6,8 +6,8 @@
 #include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "../../../lib/galileo2io.h"
-#include "../../commons/status.h"
+#include "libgalileo/galileo2io.h"
+#include "commons/status.h"
 #include "pushbuttonconfig.h"
 
 /** Get value from pushbutton by polling the GPIO which it is in (IO4).

@@ -1,4 +1,4 @@
-#include  "../../include/galileo/pwm.h"
+#include  "galileo/pwm.h"
 
 int setPeriodPWM(int periodInNanoseconds) {
     char periodString[32];

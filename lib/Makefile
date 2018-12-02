@@ -2,7 +2,7 @@ TARGET=libgalileo2.a
 SRCS=pputs.c pgets.c i2c_write_reg.c
 
 FLAGS=-O2 -Wall -MMD
-INCLUDE=-I. -I../include
+INCLUDE=-I. -I../include/libgalileo
 LIBDIR=
 LIBS=
 

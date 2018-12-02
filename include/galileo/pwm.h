@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "../../lib/galileo2io.h"
+#include "libgalileo/galileo2io.h"
 
 /** Set period(ns) in the PWM_1 (IO3).
   * @param:  {int} period in nanoseconds.

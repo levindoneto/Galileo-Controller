@@ -1,4 +1,5 @@
 TARGET=controller
+UTILS=utils/conversion.c utils/datetime.c utils/utils.c
 COMMONS=commons/errors.c
 GALILEO=galileo/pwm.c galileo/adc_continuous.c
 LED=components/led/ledconfig.c components/led/led.c
@@ -7,7 +8,7 @@ POTENTIOMETER=components/potentiometer/potentiometer.c
 SERVOMOTOR=components/servomotor/servomotor.c
 DISPLAY=components/display/lcdconfig.c components/display/backlightconfig.c components/display/lcd.c
 COMPONENTS=$(LED) $(PUSHBUTTON) $(POTENTIOMETER) $(SERVOMOTOR) $(DISPLAY)
-SRCS=$(COMMONS) $(GALILEO) $(COMPONENTS) $(TARGET).c
+SRCS=$(COMMONS) $(UTILS) $(GALILEO) $(COMPONENTS) $(TARGET).c
 
 FLAGS=-O2 -MMD
 INCLUDE=-I. -I../include/
@@ -34,6 +35,7 @@ clean:
 	components/potentiometer/*.d components/potentiometer/*.o \
 	components/servomotor/*.d components/servomotor/*.o \
 	components/pushbutton/*.d components/pushbutton/*.o \
+	utils/*.d utils/*.o \
 	galileo/*.d galileo/*.o
 
 distclean: clean

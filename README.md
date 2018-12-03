@@ -1,7 +1,7 @@
 # Galileo Controller
 Controller for a rotary actuator servomotor implemented for Intel Galileo Gen2.
 
-**Author:** Levindo Gabriel Taschetto Neto.
+**Authors:** Levindo Gabriel Taschetto Neto e Vinícius Fratin Netto (2018/2).
 
 ## Components (all from the grove-starter kit)
 

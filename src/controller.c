@@ -24,31 +24,19 @@ int main(int argc,char *argv[]) {
     turnOffLed(ledFD);
     printf("\nstatus: %d\n\n", closeLed(ledFD));
 
-    int i = 0;
-    for (i=0; i<100; i++) {
-        printf("IM HERE\n");
-        // Overwrite the display
-        fileDescriptor = initDisplay();
-        prepareDisplay(fileDescriptor);
-        initBacklight(fileDescriptor);
-        setBacklightColor(fileDescriptor, RED);
-        char snum0[5];
-        char snum1[5];
-        // convert 123 to string [buf]
-        sprintf(snum0,"%d",i);
-        sprintf(snum1,"%d",i+1);
-        textToWrite1 = "TIME\0";
-        writeDisplay(fileDescriptor, snum0, snum1);
-        sleep(1);
-    }
-    // Overwrite the display
+    // TEST OVERWRITE DISPLAY
     fileDescriptor = initDisplay();
     prepareDisplay(fileDescriptor);
     initBacklight(fileDescriptor);
     setBacklightColor(fileDescriptor, RED);
-    textToWrite0 = "OUTRO\0";
+    textToWrite0 = "HORA\0";
     textToWrite1 = "TIME\0";
     writeDisplay(fileDescriptor, textToWrite0, textToWrite1);
+
+    // TEST DATETIME
+    getCurrentTimeTimestamp();
+    printf("TIME ISO: %s\n", getCurrentTimeISO());
+    getCurrentDateISO();
 
     // TEST SERVOMOTOR-PWM - IO3
     // PWM CONFIG

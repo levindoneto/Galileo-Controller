@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "utils/datetime.h"
 #include "commons/status.h"
 #include "../include/components/display/lcd.h"
 #include "../include/components/pushbutton/pushbutton.h"

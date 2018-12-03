@@ -35,7 +35,7 @@ clean:
 	components/potentiometer/*.d components/potentiometer/*.o \
 	components/servomotor/*.d components/servomotor/*.o \
 	components/pushbutton/*.d components/pushbutton/*.o \
-	utils/*.d utils/*.o utils/conversion*.d utils/conversion*.o \
+	utils/*.d utils/*.o utils/conversion/*.d utils/conversion/*.o \
 	galileo/*.d galileo/*.o
 
 distclean: clean

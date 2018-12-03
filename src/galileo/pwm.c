@@ -1,7 +1,7 @@
 #include  "galileo/pwm.h"
 
 int getPeriodPWM() {
-    char periodString[32];
+    static char periodString[32];
     if (pgets(periodString, sizeof(periodString),
               "/sys/class/pwm/pwmchip0/device/pwm_period") < 0) {
         printf("\nReturning default PWM period: %d", PWM_DEFAULT_PERIOD);

@@ -24,7 +24,24 @@ int main(int argc,char *argv[]) {
     turnOffLed(ledFD);
     printf("\nstatus: %d\n\n", closeLed(ledFD));
 
-    // // Overwrite the display
+    int i = 0;
+    for (i=0; i<100; i++) {
+        printf("IM HERE\n");
+        // Overwrite the display
+        fileDescriptor = initDisplay();
+        prepareDisplay(fileDescriptor);
+        initBacklight(fileDescriptor);
+        setBacklightColor(fileDescriptor, RED);
+        char snum0[5];
+        char snum1[5];
+        // convert 123 to string [buf]
+        sprintf(snum0,"%d",i);
+        sprintf(snum1,"%d",i+1);
+        textToWrite1 = "TIME\0";
+        writeDisplay(fileDescriptor, snum0, snum1);
+        sleep(1);
+    }
+    // Overwrite the display
     fileDescriptor = initDisplay();
     prepareDisplay(fileDescriptor);
     initBacklight(fileDescriptor);

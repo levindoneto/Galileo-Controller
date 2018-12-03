@@ -3,12 +3,14 @@ Controller for a rotary actuator servomotor implemented for Intel Galileo Gen2.
 
 **Author:** Levindo Gabriel Taschetto Neto.
 
-## Components
+## Components (all from the grove-starter kit)
 
-*  Pushbutton;
-*  Servomotor;
-*  Grove-LCD RGB Backlight v4.0;
-*  Potentiometer;
+*  Pushbutton.
+*  Servomotor.
+*  Grove-LCD RGB Backlight v4.0.
+*  Potentiometer.
+*  LED socket v1.5.
+*  Buzzer v1.2.
 
 ## How to use
 ### Configure the Cross Compiler

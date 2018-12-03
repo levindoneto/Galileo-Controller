@@ -1,5 +1,5 @@
 TARGET=controller
-UTILS=utils/conversion.c utils/datetime.c utils/utils.c
+UTILS=utils/conversion/types_conversion.c utils/conversion/measurement_conversion.c utils/datetime.c utils/utils.c
 COMMONS=commons/errors.c
 GALILEO=galileo/pwm.c galileo/adc_continuous.c
 LED=components/led/ledconfig.c components/led/led.c
@@ -35,7 +35,7 @@ clean:
 	components/potentiometer/*.d components/potentiometer/*.o \
 	components/servomotor/*.d components/servomotor/*.o \
 	components/pushbutton/*.d components/pushbutton/*.o \
-	utils/*.d utils/*.o \
+	utils/*.d utils/*.o utils/conversion*.d utils/conversion*.o \
 	galileo/*.d galileo/*.o
 
 distclean: clean

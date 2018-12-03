@@ -38,6 +38,6 @@ void initBacklight(int i2cFileDescriptor) {
     i2c_write_reg(i2cFileDescriptor, BL_MODE2, BL_DMBLNK);
 
     // Init color (white)
-    setBacklightColor(i2cFileDescriptor, RED);
+    //setBacklightColor(i2cFileDescriptor, RED);
 
 }

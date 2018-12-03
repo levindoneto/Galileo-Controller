@@ -6,6 +6,17 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "libgalileo/galileo2io.h"
+#include "commons/status.h"
+
+#define PWM_MAX_PERIOD     41600000 // in ns
+#define PWM_MIN_PERIOD     656000   // in ns
+#define PWM_DEFAULT_PERIOD 20000000 // in ns
+
+/** Get the period(ns) set in the PWM_1 (IO3).
+  * @param:  {void}.
+  * @return: {int} period in nanoseconds.
+  */
+int getPeriodPWM();
 
 /** Set period(ns) in the PWM_1 (IO3).
   * @param:  {int} period in nanoseconds.
@@ -17,7 +28,13 @@ int setPeriodPWM(int periodInNanoseconds);
   * @param:  {int} duty cycle.
   * @return: {int} status of the operation.
   */
-int setDutycycle(int dutycycle);
+int setDutycycle(int dutyCycle);
+
+/** Set duty cycle (%) in the PWM_1 (IO3).
+  * @param:  {int} percent duty cycle.
+  * @return: {int} status of the operation.
+  */
+int setDutycyclePercent(int percentDutyCycle);
 
 /** Enable the GalileoGen2's PWM_1 (IO3).
   * @param:  {void}.
@@ -25,10 +42,10 @@ int setDutycycle(int dutycycle);
   */
 int enablePWM();
 
-/** Unable the GalileoGen2's PWM_1 (IO3).
+/** Disable the GalileoGen2's PWM_1 (IO3).
   * @param:  {void}.
   * @return: {int} status of the operation.
   */
-int unablePWM();
+int disablePWM();
 
 #endif

@@ -6,17 +6,15 @@
 #include "../../galileo/pwm.h"
 
 /** Rotate the servomotor clockwise when degrees<0 and anticlockwise otherwise.
-  * @param:  {int} pwm period in ns.
-             {double} degrees.
+  * @param:  {double} degrees.
   * @return: {int} status of the operation.
   */
-int turnOnServomotorDegrees(int pwmPeriodNs, double degrees);
+int turnOnServomotorDegrees(double degrees);
 
 /** Rotate the servomotor by a number of radians factor.
-  * @param:  {int} pwm period in ns.
-             {double} radians.
+  * @param:  {double} radians.
   * @return: {int} status of the operation.
   */
-int turnOnServomotorRads(int pwmPeriodNs, double radians);
+int turnOnServomotorRads(double radians);
 
 #endif

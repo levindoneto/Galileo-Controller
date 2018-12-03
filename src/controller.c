@@ -7,8 +7,9 @@ int main(int argc,char *argv[]) {
     int fileDescriptor = initDisplay();
     prepareDisplay(fileDescriptor);
     initBacklight(fileDescriptor);
-    const char* textToWrite0 = "TEST\0";
-    const char* textToWrite1 = "LINE2\0";
+    setBacklightColor(fileDescriptor, GREEN);
+    const char* textToWrite0 = "OLA MUNDO\0";
+    const char* textToWrite1 = "GREMIO\0";
     writeDisplay(fileDescriptor, textToWrite0, textToWrite1);
 
     // TEST LED - IO6
@@ -21,13 +22,35 @@ int main(int argc,char *argv[]) {
     scanf("%d", &test);
     printf("Turn off led...");
     turnOffLed(ledFD);
-    printf("status: %d", closeLed(ledFD));
+    printf("\nstatus: %d\n\n", closeLed(ledFD));
+
+    // // Overwrite the display
+    fileDescriptor = initDisplay();
+    prepareDisplay(fileDescriptor);
+    initBacklight(fileDescriptor);
+    setBacklightColor(fileDescriptor, RED);
+    textToWrite0 = "OUTRO\0";
+    textToWrite1 = "TIME\0";
+    writeDisplay(fileDescriptor, textToWrite0, textToWrite1);
 
     // TEST SERVOMOTOR-PWM - IO3
-    turnOnServomotorDegrees(2000000, 90.0);
-    sleep(3);
-    turnOnServomotorDegrees(2000000, -90.0);
-    sleep(3);
+    // PWM CONFIG
+    disablePWM();
+    printf("\n\n\n\ndefault period set: %d\n\n\n", PWM_DEFAULT_PERIOD);
+    setPeriodPWM(PWM_DEFAULT_PERIOD);
+    setDutycyclePercent(0); // init pwm with 0 duty cycle
+    enablePWM();
+    turnOnServomotorDegrees(90);
+    sleep(6);
+    disablePWM();
+
+    setPeriodPWM(PWM_DEFAULT_PERIOD);
+    setDutycyclePercent(0); // init pwm with 0 duty cycle
+    enablePWM();
+    turnOnServomotorDegrees(-90);
+    sleep(6);
+    disablePWM();
+
 
     return SUCCESS;
 }

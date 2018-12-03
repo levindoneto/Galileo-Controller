@@ -10,14 +10,12 @@ char* longToString(long longValue) {
     char stringBuffer[64];
     snprintf(stringBuffer, sizeof(stringBuffer), "%ld", longValue);
     return (char*) stringBuffer;
-    return stringBuffer;
 }
 
 char* floatToString(float floatValue) {
     char stringBuffer[32];
     snprintf(stringBuffer, sizeof(stringBuffer), "%f", floatValue);
     return (char*) stringBuffer;
-    return stringBuffer;
 }
 
 char* doubleToString(double doubleValue) {

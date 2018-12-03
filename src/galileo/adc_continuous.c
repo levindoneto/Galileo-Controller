@@ -6,8 +6,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include <libgalileo/galileo2io.h>
-#include <galileo/adc_continuous.h>
+#include "libgalileo/galileo2io.h"
+#include "galileo/adc_continuous.h"
 
 static double scale[N_USED_SENSORS];
 

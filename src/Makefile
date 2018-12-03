@@ -1,7 +1,7 @@
 TARGET=controller
 UTILS=utils/conversion/types_conversion.c utils/conversion/measurement_conversion.c utils/datetime.c utils/utils.c
 COMMONS=commons/errors.c
-GALILEO=galileo/pwm.c galileo/adc_continuous.c
+GALILEO=galileo/pwm.c galileo/adc_continuous.c galileo/eeprom.c
 LED=components/led/ledconfig.c components/led/led.c
 PUSHBUTTON=components/pushbutton/pushbuttonconfig.c components/pushbutton/pushbutton.c
 POTENTIOMETER=components/potentiometer/potentiometer.c

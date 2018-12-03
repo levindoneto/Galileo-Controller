@@ -1,4 +1,4 @@
-#include  "galileo/pwm.h"
+#include "galileo/pwm.h"
 
 int getPeriodPWM() {
     static char periodString[32];

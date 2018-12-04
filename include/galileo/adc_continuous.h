@@ -13,9 +13,9 @@
 #include "../commons/status.h"
 #include "../commons/errors.h"
 
-#define DATA_POINTS 1000
+#define DATA_POINTS 100
 #define SAMPLING_PERIOD 1e-3
-#define N_USED_SENSORS 4 // len([ADC0..ADC3])
+#define N_USED_SENSORS 1 // len([ADC0..ADC3])
 
 // Sensors attached to A0-A3 in the Galileo shield
 struct sensors {
@@ -44,8 +44,8 @@ int initAdcContinuous();
 /** Get data from the ADC pins into the data structures.
   * @param:  {struct sensors*} sensors line data.
              {struct adc_data*} obtained data.
-  * @return: {int} status of the operation.
+  * @return: {float} adc[0]'s avg value within the data collection.
   */
-int captureAdcContinuous(struct sensors* raw_data, struct adc_data* final_data);
+float captureAdcContinuous();
 
 #endif

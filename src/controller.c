@@ -16,13 +16,24 @@ int main(int argc,char *argv[]) {
     // Other needed variables
     int ledFD = initLed();
 
+    // ADC needed vector of structures
+    // ADC_SENSORS sensorsRawData[DATA_POINTS];
+    // ADC_DATA adcFinalData[DATA_POINTS];
+
+
+    int r;
+    for (r=0; i<20;i++) {
+        printf("POT: %f\n", captureAdcContinuous());
+    }
+
+
     // TEST DISPLAY LCD - I2C
     // Init display and backlight of the LCD
     int fileDescriptor = initDisplay();
     prepareDisplay(fileDescriptor);
     initBacklight(fileDescriptor);
     setBacklightColor(fileDescriptor, GREEN);
-    const char* textToWrite0 = "asasdasd\0";
+    const char* textToWrite0 = "OI333333333333\0";
     const char* textToWrite1 = "GREMIO\0";
     writeDisplay(fileDescriptor, textToWrite0, textToWrite1);
 
@@ -38,6 +49,7 @@ int main(int argc,char *argv[]) {
     sigaction(SIGTERM, &act,NULL);
     setPollEdge("falling"); // Configure polling edge
     disablePWM();
+    printf("init cont: %d\n", initAdcContinuous());
     // Main loop of the Galileo's controller
     while (run) {
         if(getClick(poll(&pfd, N_FD_POOLS, MIN_TIMEOUT_MS))) {
@@ -47,26 +59,21 @@ int main(int argc,char *argv[]) {
             sleep(1);
         }
         turnOffLed(ledFD);
-        // TEST SERVOMOTOR-PWM - IO3
+        // TEST BUZZER-PWM - IO3
         // PWM CONFIG
-        setupBuzzer(25);
+        //setupBuzzer(25);
         sleep(1);
-        // disablePWM();
-        // printf("\n\n\n\ndefault period set: %d\n\n\n", PWM_DEFAULT_PERIOD);
-        // setPeriodPWM(PWM_DEFAULT_PERIOD);
-        // setDutycyclePercent(0); // init pwm with 0 duty cycle
-        // enablePWM();
-        // turnOnServomotorDegrees(45);
-        // sleep(1);
-        // disablePWM();
-        //
-        // setPeriodPWM(PWM_DEFAULT_PERIOD);
-        // setDutycyclePercent(0); // init pwm with 0 duty cycle
-        // enablePWM();
-        // turnOnServomotorDegrees(-45);
-        // sleep(1);
-        // disablePWM();
+
     }
+
+
+
+
+
+
+
+
+
     disablePWM();
     closeLed(ledFD);
     closePushButton();
@@ -77,6 +84,22 @@ int main(int argc,char *argv[]) {
     // printf("TIME ISO: %s\n", getCurrentTimeISO());
     // getCurrentDateISO();
     //
+
+    // disablePWM();
+    // printf("\n\n\n\ndefault period set: %d\n\n\n", PWM_DEFAULT_PERIOD);
+    // setPeriodPWM(PWM_DEFAULT_PERIOD);
+    // setDutycyclePercent(0); // init pwm with 0 duty cycle
+    // enablePWM();
+    // turnOnServomotorDegrees(45);
+    // sleep(1);
+    // disablePWM();
+    //
+    // setPeriodPWM(PWM_DEFAULT_PERIOD);
+    // setDutycyclePercent(0); // init pwm with 0 duty cycle
+    // enablePWM();
+    // turnOnServomotorDegrees(-45);
+    // sleep(1);
+    // disablePWM();
 
     return SUCCESS;
 }

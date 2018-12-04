@@ -12,6 +12,7 @@
 static double scale[N_USED_SENSORS];
 
 int initAdcContinuous() {
+    printf("INIT ADC CONTINUOS\n");
     char path_str[80];
     char data_str[80];
     int i;
@@ -43,12 +44,16 @@ int initAdcContinuous() {
     return SUCCESS;
 }
 
-int captureAdcContinuous(struct sensors* raw_data, struct adc_data* final_data) {
+float captureAdcContinuous() {
+    struct sensors raw_data[1000];
+    struct adc_data final_data[1000];
     char path_str[80];
     int fd;
-    int samples;
+    int samples = 0;
     int i;
     pputs("/sys/bus/iio/devices/iio:device0/buffer/enable", "1");
+
+    printf("GOT HERE1\n");
 
     #ifdef TRIG_SYSFS
     for(i=0; i < DATA_POINTS; i++) {
@@ -74,30 +79,44 @@ int captureAdcContinuous(struct sensors* raw_data, struct adc_data* final_data) 
     if(final_data == NULL) {
         throwError("Final data structure for ADC continuous mode is NULL.\n");
     }
-
+    printf("GOT HERE2\n");
     // Get samples from the sensors
     samples = read(fd, raw_data, sizeof raw_data) / sizeof(struct sensors);
+    printf("SAMPLES READ: %d\n", samples);
     close(fd);
 
     pputs("/sys/bus/iio/devices/iio:device0/buffer/length", "2");
-
+    printf("GOT HERE3\n");
     for(i=0; i < N_USED_SENSORS; i++) {
         snprintf(path_str,sizeof path_str,"/sys/bus/iio/devices/iio:device0/scan_elements/in_voltage%d_en",i);
         pputs(path_str, "0");
     }
     pputs("/sys/bus/iio/devices/iio:device0/scan_elements/in_timestamp_en","0");
-
-    for(i=0; i < samples; i++) { // Go through all the obtained data
+    printf("GOT HERE4\n");
+    for(i=0; i < 80; i++) { // Go through all the obtained data
         // Sensors
+        //printf("%d\n", raw_data[i].adc0);
         raw_data[i].adc0=bswap_16(raw_data[i].adc0);
-        raw_data[i].adc1=bswap_16(raw_data[i].adc1);
-        raw_data[i].adc2=bswap_16(raw_data[i].adc2);
-        raw_data[i].adc3=bswap_16(raw_data[i].adc3);
+        printf("\ni: %d", i);
+        // raw_data[i].adc1=bswap_16(raw_data[i].adc1);
+        // raw_data[i].adc2=bswap_16(raw_data[i].adc2);
+        // raw_data[i].adc3=bswap_16(raw_data[i].adc3);
         // Obtained data
-        final_data[i].adc0_data = raw_data[i].adc0 * scale[0];
-        final_data[i].adc1_data = raw_data[i].adc1 * scale[1];
-        final_data[i].adc2_data = raw_data[i].adc2 * scale[2];
-        final_data[i].adc3_data = raw_data[i].adc3 * scale[3];
+        //final_data[i].adc0_data = raw_data[i].adc0 * scale[0];
+        // final_data[i].adc1_data = raw_data[i].adc1 * scale[1];
+        // final_data[i].adc2_data = raw_data[i].adc2 * scale[2];
+        // final_data[i].adc3_data = raw_data[i].adc3 * scale[3];
         final_data[i].elapsed_time = (raw_data[i].timestamp - raw_data[0].timestamp) * 1e-9;
     }
+printf("GOT HERE5\n");
+    //printf("GOT HERE4\n"); Get the values' average within the period when the samples were collected
+    float potValue;
+    float avgPot = 0;
+    for(i = 0;i < samples; i++) { // go through all the samples of the potentiometer
+        potValue = bswap_16(raw_data[0].adc0) * scale[0]; // scale of the potentiometer
+        avgPot += potValue;
+        //printf("PotValue: %f\n", pot);
+    }
+    avgPot = avgPot/samples;
+    return avgPot;
 }

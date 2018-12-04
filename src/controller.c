@@ -1,5 +1,4 @@
 #include "../include/controller.h"
-void quit(int signal);
 
 static volatile int run = 1;
 
@@ -9,7 +8,6 @@ void quit(int signal) {
 
 int main(int argc,char *argv[]) {
     // Polling variables (used on IO4 - Pushbutton)
-    static volatile int run = 1;
     unsigned char c;
     static struct pollfd pfd;
     int i;

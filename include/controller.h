@@ -13,4 +13,10 @@
 #include "../include/components/servomotor/servomotor.h"
 #include "../include/galileo/pwm.h"
 
+/** Break the flow of execution on the main loop.
+  * @param:  {int} running signal.
+  * @return: {void}.
+  */
+void quit(int signal);
+
 #endif

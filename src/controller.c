@@ -49,22 +49,25 @@ int main(int argc,char *argv[]) {
         turnOffLed(ledFD);
         // TEST SERVOMOTOR-PWM - IO3
         // PWM CONFIG
-        disablePWM();
-        printf("\n\n\n\ndefault period set: %d\n\n\n", PWM_DEFAULT_PERIOD);
-        setPeriodPWM(PWM_DEFAULT_PERIOD);
-        setDutycyclePercent(0); // init pwm with 0 duty cycle
-        enablePWM();
-        turnOnServomotorDegrees(45);
+        setupBuzzer(25);
         sleep(1);
-        disablePWM();
-
-        setPeriodPWM(PWM_DEFAULT_PERIOD);
-        setDutycyclePercent(0); // init pwm with 0 duty cycle
-        enablePWM();
-        turnOnServomotorDegrees(-45);
-        sleep(1);
-        disablePWM();
+        // disablePWM();
+        // printf("\n\n\n\ndefault period set: %d\n\n\n", PWM_DEFAULT_PERIOD);
+        // setPeriodPWM(PWM_DEFAULT_PERIOD);
+        // setDutycyclePercent(0); // init pwm with 0 duty cycle
+        // enablePWM();
+        // turnOnServomotorDegrees(45);
+        // sleep(1);
+        // disablePWM();
+        //
+        // setPeriodPWM(PWM_DEFAULT_PERIOD);
+        // setDutycyclePercent(0); // init pwm with 0 duty cycle
+        // enablePWM();
+        // turnOnServomotorDegrees(-45);
+        // sleep(1);
+        // disablePWM();
     }
+    disablePWM();
     closeLed(ledFD);
     closePushButton();
     close(pfd.fd);

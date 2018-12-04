@@ -7,3 +7,11 @@ double degreesToRads(double degrees) {
 double radsToDegrees(double rads) {
     return rads * 180.0 / M_PI;
 }
+
+int secToNs(int seconds) {
+    return seconds*pow(10, 9);
+}
+
+int hzToNs(int frequency) {
+    return secToNs((1/frequency));
+}

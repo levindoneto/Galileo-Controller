@@ -11,6 +11,7 @@
 #include "../include/components/pushbutton/pushbutton.h"
 #include "../include/components/led/led.h"
 #include "../include/components/servomotor/servomotor.h"
+#include "../include/components/buzzer/buzzer.h"
 #include "../include/galileo/pwm.h"
 
 /** Break the flow of execution on the main loop.

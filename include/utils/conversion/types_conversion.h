@@ -7,11 +7,11 @@
   */
 char* intToString(int intValue);
 
-/** Convert a long to a string.
-  * @param:  {long} value to be converted.
+/** Convert a long int to a string.
+  * @param:  {long int} value to be converted.
   * @return: {char*} string.
   */
-char* longToString(long longValue);
+char* longToString(long int longValue);
 
 /** Convert a float to a string.
   * @param:  {float} value to be converted.

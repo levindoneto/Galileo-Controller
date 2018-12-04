@@ -5,7 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "libgalileo/galileo2io.h"
+#include "../libgalileo/galileo2io.h"
+#include "../utils/conversion/measurement_conversion.h"
+#include "../utils/conversion/types_conversion.h"
 #include "commons/status.h"
 
 #define PWM_MAX_PERIOD     41600000 // in ns

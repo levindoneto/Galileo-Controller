@@ -39,70 +39,43 @@ int main(int argc,char *argv[]) {
     sigaction(SIGINT, &act, NULL);
     sigaction(SIGTERM, &act,NULL);
     setPollEdge("falling"); // Configure polling edge
-
+    disablePWM();
     // Main loop of the Galileo's controller
     while (run) {
         if(getClick(poll(&pfd, N_FD_POOLS, MIN_TIMEOUT_MS))) {
-            printf("\n\n\n");
             lseek(pfd.fd, 0, SEEK_SET);
             read(pfd.fd, &c, 1);
             turnOnLed(ledFD);
             sleep(1);
         }
-        printf(".");
         turnOffLed(ledFD);
+        // TEST SERVOMOTOR-PWM - IO3
+        // PWM CONFIG
+        disablePWM();
+        printf("\n\n\n\ndefault period set: %d\n\n\n", PWM_DEFAULT_PERIOD);
+        setPeriodPWM(PWM_DEFAULT_PERIOD);
+        setDutycyclePercent(0); // init pwm with 0 duty cycle
+        enablePWM();
+        turnOnServomotorDegrees(45);
+        sleep(1);
+        disablePWM();
+
+        setPeriodPWM(PWM_DEFAULT_PERIOD);
+        setDutycyclePercent(0); // init pwm with 0 duty cycle
+        enablePWM();
+        turnOnServomotorDegrees(-45);
+        sleep(1);
+        disablePWM();
     }
     closeLed(ledFD);
     closePushButton();
     close(pfd.fd);
-
-
-    // TEST LED - IO6
-    // int test;
-    // scanf("%d", &test);
-    // printf("Turn on led IO6...");
-    // int ledFD = initLed();
-    // scanf("init: %d", ledFD);
-    // turnOnLed(ledFD);
-    // scanf("%d", &test);
-    // printf("Turn off led...");
-    // turnOffLed(ledFD);
-    // printf("\nstatus: %d\n\n", closeLed(ledFD));
-
-    // TEST OVERWRITE DISPLAY
-    // fileDescriptor = initDisplay();
-    // prepareDisplay(fileDescriptor);
-    // initBacklight(fileDescriptor);
-    // setBacklightColor(fileDescriptor, RED);
-    // textToWrite0 = "HORA\0";
-    // textToWrite1 = "TIME\0";
-    // writeDisplay(fileDescriptor, textToWrite0, textToWrite1);
 
     // // TEST DATETIME
     // getCurrentTimeTimestamp();
     // printf("TIME ISO: %s\n", getCurrentTimeISO());
     // getCurrentDateISO();
     //
-    // // TEST SERVOMOTOR-PWM - IO3
-    // // PWM CONFIG
-    // disablePWM();
-    // printf("\n\n\n\ndefault period set: %d\n\n\n", PWM_DEFAULT_PERIOD);
-    // setPeriodPWM(PWM_DEFAULT_PERIOD);
-    // setDutycyclePercent(0); // init pwm with 0 duty cycle
-    // enablePWM();
-    // turnOnServomotorDegrees(90);
-    // sleep(6);
-    // disablePWM();
-    //
-    // setPeriodPWM(PWM_DEFAULT_PERIOD);
-    // setDutycyclePercent(0); // init pwm with 0 duty cycle
-    // enablePWM();
-    // turnOnServomotorDegrees(-90);
-    // sleep(6);
-    // disablePWM();
-
-
-
 
     return SUCCESS;
 }

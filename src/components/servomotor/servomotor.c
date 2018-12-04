@@ -2,17 +2,16 @@
 
 int turnOnServomotorDegrees(double degrees) {
     int duty_cycle;
-    float angle = degrees * M_PI/180.0;
-    printf("\nAngle: %f\n", angle);
-    duty_cycle = angle/M_PI_2*850000+1500000;
-    printf("\nduty_cycle: %d\n", duty_cycle);
+    duty_cycle = degreesToRads(degrees)/M_PI_2*850000+1500000;
     setDutycycle(duty_cycle);
 
     return SUCCESS;
 }
 
 int turnOnServomotorRads(double radians) {
-    printf("TO DO");
+    int duty_cycle;
+    duty_cycle = radians/M_PI_2*850000+1500000;
+    setDutycycle(duty_cycle);
 
     return SUCCESS;
 }

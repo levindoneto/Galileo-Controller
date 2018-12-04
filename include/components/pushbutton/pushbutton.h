@@ -1,19 +1,35 @@
 #ifndef PUSHBUTTON_H
 #define PUSHBUTTON_H
 
-#include <fcntl.h>
 #include <poll.h>
 #include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "libgalileo/galileo2io.h"
-#include "commons/status.h"
+
+#include "../../libgalileo/galileo2io.h"
+#include "../../commons/status.h"
 #include "pushbuttonconfig.h"
 
-/** Get value from pushbutton by polling the GPIO which it is in (IO4).
-  * @param: {void}.
-  * @return: {int} logical value (pressed=1, not_pressed=0).
+#define CLICKED 1
+#define NOT_CLICKED 0
+
+// Polling constants
+#define INIT 1
+#define N_FD_POOLS 1
+#define MIN_TIMEOUT_MS 1
+
+/**
+  * struct pollfd {
+  *     int fd;        // file descriptor
+  *     short events;  // requested events
+  *     short revents; // returned events
+  * };
   */
-int getPushbuttonValue();
+
+/** Get click of the pushbutton by the polling made.
+  * @param: {int} return from polling.
+  * @return: {int} logical value (CLICKED=1, NOT_CLICKED=0).
+  */
+int getClick(int pollResult);
 
 #endif

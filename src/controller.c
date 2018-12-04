@@ -1,6 +1,22 @@
 #include "../include/controller.h"
+void quit(int signal);
+
+static volatile int run = 1;
+
+void quit(int signal) {
+    run = 0;
+}
 
 int main(int argc,char *argv[]) {
+    // Polling variables (used on IO4 - Pushbutton)
+    static volatile int run = 1;
+    unsigned char c;
+    static struct pollfd pfd;
+    int i;
+    struct sigaction act;
+
+    // Other needed variables
+    int ledFD = initLed();
 
     // TEST DISPLAY LCD - I2C
     // Init display and backlight of the LCD
@@ -8,53 +24,84 @@ int main(int argc,char *argv[]) {
     prepareDisplay(fileDescriptor);
     initBacklight(fileDescriptor);
     setBacklightColor(fileDescriptor, GREEN);
-    const char* textToWrite0 = "OLA MUNDO\0";
+    const char* textToWrite0 = "asasdasd\0";
     const char* textToWrite1 = "GREMIO\0";
     writeDisplay(fileDescriptor, textToWrite0, textToWrite1);
 
+    // TEST POLL
+    initPushbutton(); // Configure GPIOs
+    if((pfd.fd=openPushbutton()) < 0) {
+        return showError("Error on Opening GPIO6\n");
+    }
+    read(pfd.fd, &c, INIT); // Clear old values
+    pfd.events = POLLPRI; // There's some exceptional condition on the pfd.fd
+    act.sa_handler = quit; // Action to be executed by the handler at the end
+    sigaction(SIGINT, &act, NULL);
+    sigaction(SIGTERM, &act,NULL);
+    setPollEdge("falling"); // Configure polling edge
+
+    // Main loop of the Galileo's controller
+    while (run) {
+        if(getClick(poll(&pfd, N_FD_POOLS, MIN_TIMEOUT_MS))) {
+            printf("\n\n\n");
+            lseek(pfd.fd, 0, SEEK_SET);
+            read(pfd.fd, &c, 1);
+            turnOnLed(ledFD);
+            sleep(1);
+        }
+        printf(".");
+        turnOffLed(ledFD);
+    }
+    closeLed(ledFD);
+    closePushButton();
+    close(pfd.fd);
+
+
     // TEST LED - IO6
-    int test;
-    scanf("%d", &test);
-    printf("Turn on led IO6...");
-    int ledFD = initLed();
-    scanf("init: %d", ledFD);
-    turnOnLed(ledFD);
-    scanf("%d", &test);
-    printf("Turn off led...");
-    turnOffLed(ledFD);
-    printf("\nstatus: %d\n\n", closeLed(ledFD));
+    // int test;
+    // scanf("%d", &test);
+    // printf("Turn on led IO6...");
+    // int ledFD = initLed();
+    // scanf("init: %d", ledFD);
+    // turnOnLed(ledFD);
+    // scanf("%d", &test);
+    // printf("Turn off led...");
+    // turnOffLed(ledFD);
+    // printf("\nstatus: %d\n\n", closeLed(ledFD));
 
     // TEST OVERWRITE DISPLAY
-    fileDescriptor = initDisplay();
-    prepareDisplay(fileDescriptor);
-    initBacklight(fileDescriptor);
-    setBacklightColor(fileDescriptor, RED);
-    textToWrite0 = "HORA\0";
-    textToWrite1 = "TIME\0";
-    writeDisplay(fileDescriptor, textToWrite0, textToWrite1);
+    // fileDescriptor = initDisplay();
+    // prepareDisplay(fileDescriptor);
+    // initBacklight(fileDescriptor);
+    // setBacklightColor(fileDescriptor, RED);
+    // textToWrite0 = "HORA\0";
+    // textToWrite1 = "TIME\0";
+    // writeDisplay(fileDescriptor, textToWrite0, textToWrite1);
 
-    // TEST DATETIME
-    getCurrentTimeTimestamp();
-    printf("TIME ISO: %s\n", getCurrentTimeISO());
-    getCurrentDateISO();
+    // // TEST DATETIME
+    // getCurrentTimeTimestamp();
+    // printf("TIME ISO: %s\n", getCurrentTimeISO());
+    // getCurrentDateISO();
+    //
+    // // TEST SERVOMOTOR-PWM - IO3
+    // // PWM CONFIG
+    // disablePWM();
+    // printf("\n\n\n\ndefault period set: %d\n\n\n", PWM_DEFAULT_PERIOD);
+    // setPeriodPWM(PWM_DEFAULT_PERIOD);
+    // setDutycyclePercent(0); // init pwm with 0 duty cycle
+    // enablePWM();
+    // turnOnServomotorDegrees(90);
+    // sleep(6);
+    // disablePWM();
+    //
+    // setPeriodPWM(PWM_DEFAULT_PERIOD);
+    // setDutycyclePercent(0); // init pwm with 0 duty cycle
+    // enablePWM();
+    // turnOnServomotorDegrees(-90);
+    // sleep(6);
+    // disablePWM();
 
-    // TEST SERVOMOTOR-PWM - IO3
-    // PWM CONFIG
-    disablePWM();
-    printf("\n\n\n\ndefault period set: %d\n\n\n", PWM_DEFAULT_PERIOD);
-    setPeriodPWM(PWM_DEFAULT_PERIOD);
-    setDutycyclePercent(0); // init pwm with 0 duty cycle
-    enablePWM();
-    turnOnServomotorDegrees(90);
-    sleep(6);
-    disablePWM();
 
-    setPeriodPWM(PWM_DEFAULT_PERIOD);
-    setDutycyclePercent(0); // init pwm with 0 duty cycle
-    enablePWM();
-    turnOnServomotorDegrees(-90);
-    sleep(6);
-    disablePWM();
 
 
     return SUCCESS;

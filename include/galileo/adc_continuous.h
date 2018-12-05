@@ -42,8 +42,8 @@ typedef struct adc_data {
 int initAdcContinuous();
 
 /** Get data from the ADC pins into the data structures.
-  * @param:  {struct sensors*} sensors line data.
-             {struct adc_data*} obtained data.
+  * @param:  {SENSORS_DATA*} sensors line data.
+             {ADC_DATA*} obtained scaled data.
   * @return: {int} status of the operation.
   */
 int captureAdcContinuous(SENSORS_DATA* rawData, ADC_DATA* finalData);

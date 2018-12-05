@@ -1,7 +1,7 @@
 TARGET=libgalileo2.a
 SRCS=pputs.c pgets.c i2c_write_reg.c
 
-FLAGS=-Wall -MMD
+FLAGS=-Wall -MMD # -O2 cannot be used for using the Galileo's continuous mode
 INCLUDE=-I. -I../include/libgalileo
 LIBDIR=
 LIBS=

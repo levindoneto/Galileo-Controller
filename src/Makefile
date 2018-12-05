@@ -11,7 +11,7 @@ DISPLAY=components/display/lcdconfig.c components/display/backlightconfig.c comp
 COMPONENTS=$(BUZZER) $(LED) $(PUSHBUTTON) $(POTENTIOMETER) $(SERVOMOTOR) $(DISPLAY)
 SRCS=$(COMMONS) $(UTILS) $(GALILEO) $(COMPONENTS) $(TARGET).c
 
-FLAGS=-MMD
+FLAGS=-MMD # -O2 cannot be used for using the Galileo's continuous mode
 INCLUDE=-I. -I../include/
 LIBDIR=-L../lib
 LIBS=-lgalileo2

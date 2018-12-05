@@ -12,6 +12,7 @@ int main(int argc,char *argv[]) {
     static struct pollfd pfd;
     int i;
     struct sigaction act;
+    memset(&act, 0, sizeof(act));
 
     // Other needed variables
     int ledFD = initLed();

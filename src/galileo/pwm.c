@@ -26,12 +26,7 @@ int setDutycyclePercent(int percentDutyCycle) {
     if(percentDutyCycle > 100 || percentDutyCycle < 0) {
         return ERROR;
     }
-    printf("\ngetPeriodPWM(): %d\n", getPeriodPWM());
-
-
-    //int dutyCycle = (int) percentDutyCycle * getPeriodPWM() / 100;   //TODO: FIX
     int dutyCycle = (int) percentDutyCycle * PWM_DEFAULT_PERIOD / 100;
-    printf("\nDUTY CYCLE TO SET: %d", dutyCycle);
     return setDutycycle(dutyCycle);
 }
 

@@ -17,6 +17,10 @@ int main(int argc,char *argv[]) {
     // Other needed variables
     int ledFD = initLed();
 
+    // ADC variables
+    SENSORS_DATA rawData[DATA_POINTS];
+    ADC_DATA finalData[DATA_POINTS];
+
     // TEST DISPLAY LCD - I2C
     // Init display and backlight of the LCD
     int fileDescriptorDisplay = initDisplay();
@@ -40,11 +44,15 @@ int main(int argc,char *argv[]) {
     setPollEdge("falling"); // Configure polling edge
     disablePWM();
 
-    SENSORS_DATA rawData[DATA_POINTS];
-    ADC_DATA finalData[DATA_POINTS];
-
     int statusInitAdc = initAdcContinuous();
-    printf("funfou: %d\n", statusInitAdc);
+
+    // disablePWM();
+    // setPeriodPWM(PWM_DEFAULT_PERIOD);
+    // setDutycyclePercent(0); // init pwm with 0 duty cycle
+    // enablePWM();
+    // turnOnServomotorDegrees(45);
+    // sleep(1);
+    // disablePWM();
 
     // Main loop of the Galileo's controller
     while (run) {
@@ -60,21 +68,6 @@ int main(int argc,char *argv[]) {
         //setupBuzzer(25);
         captureAdcContinuous(rawData, finalData);
         sleep(1);
-        // disablePWM();
-        // printf("\n\n\n\ndefault period set: %d\n\n\n", PWM_DEFAULT_PERIOD);
-        // setPeriodPWM(PWM_DEFAULT_PERIOD);
-        // setDutycyclePercent(0); // init pwm with 0 duty cycle
-        // enablePWM();
-        // turnOnServomotorDegrees(45);
-        // sleep(1);
-        // disablePWM();
-        //
-        // setPeriodPWM(PWM_DEFAULT_PERIOD);
-        // setDutycyclePercent(0); // init pwm with 0 duty cycle
-        // enablePWM();
-        // turnOnServomotorDegrees(-45);
-        // sleep(1);
-        // disablePWM();
     }
 
     endAdc();

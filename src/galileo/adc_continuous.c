@@ -43,7 +43,7 @@ int initAdcContinuous() {
     return SUCCESS;
 }
 
-int captureAdcContinuous(struct sensors* raw_data, struct adc_data* final_data) {
+int captureAdcContinuous(SENSORS_DATA* raw_data, ADC_DATA* final_data) {
     char path_str[80];
     int fd;
     int samples;
@@ -60,32 +60,23 @@ int captureAdcContinuous(struct sensors* raw_data, struct adc_data* final_data) 
     #endif
 
     pputs("/sys/bus/iio/devices/iio:device0/buffer/enable", "0");
-    pputs("/sys/bus/iio/devices/iio:device0/trigger/current_trigger", "\n");
-
     if((fd=open("/dev/iio:device0", O_RDONLY)) < 0) {
         perror("Opening /dev/iio:device0:");
         return -1;
     }
-
     if(raw_data == NULL) {
         throwError("Raw data structure for ADC continuous mode is NULL.\n");
     }
-
     if(final_data == NULL) {
         throwError("Final data structure for ADC continuous mode is NULL.\n");
     }
 
+    int lengthRequested = DATA_POINTS*sizeof(struct sensors);
     // Get samples from the sensors
-    samples = read(fd, raw_data, sizeof raw_data) / sizeof(struct sensors);
+    printf("\nsizeof: %d", DATA_POINTS*sizeof(struct sensors));
+    samples = read(fd, raw_data, lengthRequested) / sizeof(struct sensors); // Read bytes
+    printf("\nSamples: %d", samples);
     close(fd);
-
-    pputs("/sys/bus/iio/devices/iio:device0/buffer/length", "2");
-
-    for(i=0; i < N_USED_SENSORS; i++) {
-        snprintf(path_str,sizeof path_str,"/sys/bus/iio/devices/iio:device0/scan_elements/in_voltage%d_en",i);
-        pputs(path_str, "0");
-    }
-    pputs("/sys/bus/iio/devices/iio:device0/scan_elements/in_timestamp_en","0");
 
     for(i=0; i < samples; i++) { // Go through all the obtained data
         // Sensors
@@ -98,6 +89,21 @@ int captureAdcContinuous(struct sensors* raw_data, struct adc_data* final_data) 
         final_data[i].adc1_data = raw_data[i].adc1 * scale[1];
         final_data[i].adc2_data = raw_data[i].adc2 * scale[2];
         final_data[i].adc3_data = raw_data[i].adc3 * scale[3];
+        printf("final_data[i].adc0_data: %lf\n", final_data[i].adc0_data);
         final_data[i].elapsed_time = (raw_data[i].timestamp - raw_data[0].timestamp) * 1e-9;
     }
+    return 0;
+}
+
+int endAdc() {
+    char path_str[80];
+    int i;
+    pputs("/sys/bus/iio/devices/iio:device0/buffer/length", "2");
+    for(i=0; i < N_USED_SENSORS; i++) {
+        snprintf(path_str, sizeof path_str,
+                 "/sys/bus/iio/devices/iio:device0/scan_elements/in_voltage%d_en",i);
+        pputs(path_str, "0");
+    }
+    pputs("/sys/bus/iio/devices/iio:device0/scan_elements/in_timestamp_en","0");
+    return pputs("/sys/bus/iio/devices/iio:device0/trigger/current_trigger", "\n");
 }

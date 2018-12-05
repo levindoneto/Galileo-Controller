@@ -18,13 +18,13 @@ int main(int argc,char *argv[]) {
 
     // TEST DISPLAY LCD - I2C
     // Init display and backlight of the LCD
-    int fileDescriptor = initDisplay();
-    prepareDisplay(fileDescriptor);
-    initBacklight(fileDescriptor);
-    setBacklightColor(fileDescriptor, GREEN);
-    const char* textToWrite0 = "asasdasd\0";
+    int fileDescriptorDisplay = initDisplay();
+    prepareDisplay(fileDescriptorDisplay);
+    initBacklight(fileDescriptorDisplay);
+    setBacklightColor(fileDescriptorDisplay, GREEN);
+    const char* textToWrite0 = "AAAA\0";
     const char* textToWrite1 = "GREMIO\0";
-    writeDisplay(fileDescriptor, textToWrite0, textToWrite1);
+    writeDisplay(fileDescriptorDisplay, textToWrite0, textToWrite1);
 
     // TEST POLL
     initPushbutton(); // Configure GPIOs
@@ -38,6 +38,13 @@ int main(int argc,char *argv[]) {
     sigaction(SIGTERM, &act,NULL);
     setPollEdge("falling"); // Configure polling edge
     disablePWM();
+
+    SENSORS_DATA rawData[DATA_POINTS];
+    ADC_DATA finalData[DATA_POINTS];
+
+    int statusInitAdc = initAdcContinuous();
+    printf("funfou: %d\n", statusInitAdc);
+
     // Main loop of the Galileo's controller
     while (run) {
         if(getClick(poll(&pfd, N_FD_POOLS, MIN_TIMEOUT_MS))) {
@@ -49,7 +56,8 @@ int main(int argc,char *argv[]) {
         turnOffLed(ledFD);
         // TEST SERVOMOTOR-PWM - IO3
         // PWM CONFIG
-        setupBuzzer(25);
+        //setupBuzzer(25);
+        captureAdcContinuous(rawData, finalData);
         sleep(1);
         // disablePWM();
         // printf("\n\n\n\ndefault period set: %d\n\n\n", PWM_DEFAULT_PERIOD);
@@ -67,16 +75,18 @@ int main(int argc,char *argv[]) {
         // sleep(1);
         // disablePWM();
     }
-    disablePWM();
+
+    endAdc();
+    //disablePWM();
     closeLed(ledFD);
     closePushButton();
-    close(pfd.fd);
+    close(fileDescriptorDisplay);
+    close(pfd.fd); // Close interruption on the pushbutton (IO4)
 
     // // TEST DATETIME
     // getCurrentTimeTimestamp();
     // printf("TIME ISO: %s\n", getCurrentTimeISO());
     // getCurrentDateISO();
     //
-
     return SUCCESS;
 }

@@ -13,27 +13,27 @@
 #include "../commons/status.h"
 #include "../commons/errors.h"
 
-#define DATA_POINTS 1000
+#define DATA_POINTS 1024
 #define SAMPLING_PERIOD 1e-3
 #define N_USED_SENSORS 4 // len([ADC0..ADC3])
 
 // Sensors attached to A0-A3 in the Galileo shield
-struct sensors {
+typedef struct sensors {
     uint16_t adc0;     // big-endian:   u12/16>>0
     uint16_t adc1;     // big-endian:   u12/16>>0
     uint16_t adc2;     // big-endian:   u12/16>>0
     uint16_t adc3;     // big-endian:   u12/16>>0
     int64_t timestamp; // little-endian:s64/64>>0
-};
+} SENSORS_DATA;
 
 // Data got in the sensors attached to A0-A3 in the Galileo shield
-struct adc_data {
+typedef struct adc_data {
     double adc0_data;
     double adc1_data;
     double adc2_data;
     double adc3_data;
     double elapsed_time;
-};
+} ADC_DATA;
 
 /** Init needed triggers for using the continuous mode of the Galileo's ADC.
   * @param:  {void}.
@@ -46,6 +46,12 @@ int initAdcContinuous();
              {struct adc_data*} obtained data.
   * @return: {int} status of the operation.
   */
-int captureAdcContinuous(struct sensors* raw_data, struct adc_data* final_data);
+int captureAdcContinuous(SENSORS_DATA* rawData, ADC_DATA* finalData);
+
+/** End connection with the ADC.
+  * @param:  {void}.
+  * @return: {int} status of the operation.
+  */
+int endAdc();
 
 #endif

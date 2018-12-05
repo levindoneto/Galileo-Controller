@@ -87,10 +87,18 @@ int captureAdcContinuous(SENSORS_DATA* raw_data, ADC_DATA* final_data) {
         final_data[i].adc1_data = raw_data[i].adc1 * scale[1];
         final_data[i].adc2_data = raw_data[i].adc2 * scale[2];
         final_data[i].adc3_data = raw_data[i].adc3 * scale[3];
-        printf("> %lf", final_data[i].adc0_data);
         final_data[i].elapsed_time = (raw_data[i].timestamp - raw_data[0].timestamp) * 1e-9;
     }
     return 0;
+}
+
+double getAverageAdc0(ADC_DATA* finalData) {
+    int v;
+    double total = 0.0;
+    for (v = 0; v < DATA_POINTS; v++) {
+        total += finalData[v].adc0_data;
+    }
+    return total / DATA_POINTS;
 }
 
 int endAdc() {

@@ -48,6 +48,12 @@ int initAdcContinuous();
   */
 int captureAdcContinuous(SENSORS_DATA* rawData, ADC_DATA* finalData);
 
+/** Get data from the ADC pins into the data structures.
+  * @param:  {ADC_DATA*} obtained scaled data.
+  * @return: {double} average of values.
+  */
+double getAverageAdc0(ADC_DATA* finalData);
+
 /** End connection with the ADC.
   * @param:  {void}.
   * @return: {int} status of the operation.

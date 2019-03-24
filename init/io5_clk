@@ -1,0 +1,66 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          io2
+# Required-Start:
+# Should-Start:
+
+# Required-Stop:
+# Default-Start:     S
+# Default-Stop:
+# Short-Description: It configures the IO5 - CLOCK
+# Description:       Levindo Neto and Vinicius Fratin - 18/2.
+### END INIT INFO
+case "$1" in
+    start|restart|force-reload)
+    # IO5: LINUX -> gpio0
+    if [ ! -d /sys/class/gpio/gpio0 ] ; then
+        echo -n "0" > /sys/class/gpio/export
+    fi
+    echo -n "out" > /sys/class/gpio/gpio0/direction
+
+    # IO5: LEVEL_SHIFTER -> gpio18 => dir_out [L] (out, 0)
+    if [ ! -d /sys/class/gpio/gpio18 ] ; then
+        echo -n "18" > /sys/class/gpio/export
+    fi
+    echo -n "out" > /sys/class/gpio/gpio18/direction
+    echo -n "1" > /sys/class/gpio/gpio18/value # HIGH IN RECEPTOR
+
+    # gpio19 = 0 => pull-down
+    if [ ! -d /sys/class/gpio/gpio19 ] ; then
+        echo -n "19" > /sys/class/gpio/export
+    fi
+    echo -n "out" > /sys/class/gpio/gpio19/direction
+    echo -n "0" > /sys/class/gpio/gpio19/value
+
+    # IO5: PIN MUX -> 1 GPIO: gpio66(L), L: out, no direction required
+    if [ ! -d /sys/class/gpio/gpio66 ] ; then
+        echo -n "66" > /sys/class/gpio/export
+    fi
+    echo -n "0" > /sys/class/gpio/gpio66/value
+
+    # Give permissions to the members of examgroup to access the gpio 13
+    chgrp examgroup /sys/class/gpio/gpio0/value
+    chmod g+rw /sys/class/gpio/gpio0/value
+    chgrp examgroup /sys/class/gpio/gpio0/edge
+    chmod g+rw /sys/class/gpio/gpio0/edge
+
+    ;;
+    stop)
+    # Put gpio1 to dir_in for avoiding short circuits
+    echo -n "in" > /sys/class/gpio/gpio0/direction
+    echo -n "0" > /sys/class/gpio/unexport # Unexport linux
+    echo -n "18" > /sys/class/gpio/unexport # Unexport linux
+    echo -n "19" > /sys/class/gpio/unexport # Unexport linux
+    echo -n "66" > /sys/class/gpio/unexport # Unexport linux
+    ;;
+    status)
+        ls -d /sys/class/gpio/gpio*
+    ;;
+    *)
+    echo -n "Usage: $0 "
+    echo "{start|stop|restart|force-reload|status}"
+    exit 1
+    ;;
+esac
+
+exit 0

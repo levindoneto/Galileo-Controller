@@ -8,7 +8,8 @@
 
 #include "../../libgalileo/galileo2io.h"
 #include "../../commons/status.h"
-#include "pushbuttonconfig.h"
+#include "configTx.h"
+#include "configRx.h"
 
 #define CLICKED 1
 #define NOT_CLICKED 0

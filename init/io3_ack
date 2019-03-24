@@ -1,0 +1,67 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          io3_ack
+# Required-Start:
+# Should-Start:
+# Required-Stop:
+# Default-Start:     S
+# Default-Stop:
+# Short-Description: It configures GPIO and interrupts for using io3 - ack
+# Description:       Levindo Neto and Vinicius Fratin - 18/2.
+### END INIT INFO
+
+case "$1" in
+    start|restart|force-reload)
+    # IO3 = gpio14
+    if [ ! -d /sys/class/gpio/gpio14 ] ; then
+        echo -n "14" > /sys/class/gpio/export
+    fi
+    echo -n "in" > /sys/class/gpio/gpio14/direction
+
+    # Add permissions to the members of examgroup to access the gpio
+    chgrp examgroup /sys/class/gpio/gpio14/value
+    chmod g+r /sys/class/gpio/gpio14/value
+    chgrp examgroup /sys/class/gpio/gpio14/edge
+    chmod g+rw /sys/class/gpio/gpio14/edge
+
+    # gpio16 = 1 => IO3=dir_in
+    if [ ! -d /sys/class/gpio/gpio16 ] ; then
+        echo -n "16" > /sys/class/gpio/export
+    fi
+    echo -n "out" > /sys/class/gpio/gpio16/direction
+    echo -n "1" > /sys/class/gpio/gpio16/value
+
+    # gpio17 = 0 => pull-down
+    if [ ! -d /sys/class/gpio/gpio17 ] ; then
+        echo -n "17" > /sys/class/gpio/export
+    fi
+    echo -n "out" > /sys/class/gpio/gpio17/direction
+    echo -n "0" > /sys/class/gpio/gpio17/value
+
+    # gpio77 = 0 => LOW -> PIN MUX
+    if [ ! -d /sys/class/gpio/gpio77 ] ; then
+        echo -n "77" > /sys/class/gpio/export
+    fi
+    #echo -n "out" > /sys/class/gpio/gpio77/direction
+    echo -n "0" > /sys/class/gpio/gpio77/value
+
+    ;;
+    stop)
+
+    echo -n "in" > /sys/class/gpio/gpio37/direction
+    echo -n "14" > /sys/class/gpio/unexport
+    echo -n "16" > /sys/class/gpio/unexport
+    echo -n "17" > /sys/class/gpio/unexport
+    echo -n "77" > /sys/class/gpio/unexport
+    ;;
+    status)
+        ls -d /sys/class/gpio/gpio*
+    ;;
+    *)
+    echo -n "Usage: $0 "
+    echo "{start|stop|restart|force-reload|status}"
+    exit 1
+    ;;
+esac
+
+exit 0

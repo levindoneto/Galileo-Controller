@@ -1,0 +1,57 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          io2
+# Required-Start:
+# Should-Start:
+
+# Required-Stop:
+# Default-Start:     S
+# Default-Stop:
+# Short-Description: It configures the IO2 - CLOCK
+# Description:       Levindo Neto and Vinicius Fratin - 18/2.
+### END INIT INFO
+case "$1" in
+    start|restart|force-reload)
+    # IO6: LINUX -> gpio1
+    if [ ! -d /sys/class/gpio/gpio13 ] ; then
+        echo -n "13" > /sys/class/gpio/export
+    fi
+    echo -n "out" > /sys/class/gpio/gpio13/direction
+
+    # IO6: LEVEL_SHIFTER -> gpio34 => dir_out [L] (out, 0)
+    if [ ! -d /sys/class/gpio/gpio34 ] ; then
+        echo -n "34" > /sys/class/gpio/export
+    fi
+    echo -n "out" > /sys/class/gpio/gpio34/direction
+    echo -n "0" > /sys/class/gpio/gpio34/value
+
+    # IO6: PIN MUX -> 1 GPIO: gpio77(L), L: out, no direction required
+    if [ ! -d /sys/class/gpio/gpio77 ] ; then
+        echo -n "77" > /sys/class/gpio/export
+    fi
+    echo -n "0" > /sys/class/gpio/gpio77/value
+
+    # Give permissions to the members of examgroup to access the gpio 13
+    chgrp examgroup /sys/class/gpio/gpio13/value
+    chmod g+rw /sys/class/gpio/gpio13/value
+
+    ;;
+    stop)
+    # Put gpio1 to dir_in for avoiding short circuits
+    echo -n "in" > /sys/class/gpio/gpio13/direction
+    echo -n "34" > /sys/class/gpio/unexport # Unexport linux
+    echo -n "13" > /sys/class/gpio/unexport # Unexport  level shifter
+    echo -n "77" > /sys/class/gpio/unexport # Unexport PIN MUX
+
+    ;;
+    status)
+        ls -d /sys/class/gpio/gpio*
+    ;;
+    *)
+    echo -n "Usage: $0 "
+    echo "{start|stop|restart|force-reload|status}"
+    exit 1
+    ;;
+esac
+
+exit 0

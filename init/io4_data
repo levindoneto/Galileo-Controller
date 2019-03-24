@@ -1,0 +1,56 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          io4_data
+# Required-Start:
+# Should-Start:
+# Required-Stop:
+# Default-Start:     S
+# Default-Stop:
+# Short-Description: It configures the IO4 for having DATA
+# Description:       Levindo Neto and Vinicius Fratin - 18/2.
+### END INIT INFO
+
+case "$1" in
+    start|restart|force-reload)
+    # IO6: LINUX -> gpio6
+    if [ ! -d /sys/class/gpio/gpio6 ] ; then
+        echo -n "6" > /sys/class/gpio/export
+    fi
+    echo -n "out" > /sys/class/gpio/gpio6/direction
+
+    # IO6: LEVEL_SHIFTER -> gpio36 => dir_out [L] (out, 0)
+    if [ ! -d /sys/class/gpio/gpio36 ] ; then
+        echo -n "36" > /sys/class/gpio/export
+    fi
+    echo -n "out" > /sys/class/gpio/gpio36/direction
+    echo -n "0" > /sys/class/gpio/gpio36/value
+    #
+    # # IO6: PIN MUX -> 1 GPIO: gpio68(L), L: out, no direction required
+    # if [ ! -d /sys/class/gpio/gpio68 ] ; then
+    #     echo -n "68" > /sys/class/gpio/export
+    # fi
+    # echo -n "0" > /sys/class/gpio/gpio68/value
+
+    # Give permissions to the members of examgroup to access the gpio
+    chgrp examgroup /sys/class/gpio/gpio6/value
+    chmod g+rw /sys/class/gpio/gpio6/value
+
+    ;;
+    stop)
+    # Put gpio1 to dir_in for avoiding short circuits
+    echo -n "in" > /sys/class/gpio/gpio6/direction
+    echo -n "6" > /sys/class/gpio/unexport # Unexport linux
+    echo -n "36" > /sys/class/gpio/unexport # Unexport level shifter
+
+    ;;
+    status)
+        ls -d /sys/class/gpio/gpio*
+    ;;
+    *)
+    echo -n "Usage: $0 "
+    echo "{start|stop|restart|force-reload|status}"
+    exit 1
+    ;;
+esac
+
+exit 0
